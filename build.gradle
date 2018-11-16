@@ -31,7 +31,9 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.apache.kafka:kafka-streams')
     implementation('org.springframework.kafka:spring-kafka')
-    runtimeOnly('mysql:mysql-connector-java')
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
     compileOnly('org.projectlombok:lombok')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    compile group: 'org.springframework.batch', name: 'spring-batch-core', version: '4.0.0.RELEASE'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.batch:spring-batch-test')
 }
