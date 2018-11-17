@@ -30,6 +30,8 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.apache.kafka:kafka-streams')
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.6.Final'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     implementation('org.springframework.kafka:spring-kafka')
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
     compileOnly('org.projectlombok:lombok')
