@@ -11,11 +11,10 @@ import java.util.Date;
 @Entity
 @Data
 public class BargainDate implements Serializable {
-
     @Id
     @ManyToOne
     private Building building;
-    
+
     @Id
     private Date date;
     private String price;
