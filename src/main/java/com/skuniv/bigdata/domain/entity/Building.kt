@@ -17,7 +17,7 @@ data class Building(
         var floor: Int,
         var type: Int,
         @Column(name = "building_num")
-        var buildingNum: Int,
+        var buildingNum: String,
         @Column(name = "construct_year")
         var constructYear: String,
         @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
