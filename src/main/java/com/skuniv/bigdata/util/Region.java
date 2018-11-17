@@ -265,6 +265,7 @@ public enum Region {
     ,JEJU_SEOGUIPO("50","50130")
     ,JEJU_JEJU("50","50110")
     ;
+
     private String city;
     private String group;
 
