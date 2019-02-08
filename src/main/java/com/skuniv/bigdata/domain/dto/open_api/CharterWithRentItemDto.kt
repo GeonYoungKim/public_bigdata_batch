@@ -1,10 +1,11 @@
 package com.skuniv.bigdata.domain.dto.open_api
 
+import lombok.Data
 import javax.xml.bind.annotation.*
 
 @XmlRootElement(name = "item")
 @XmlAccessorType(XmlAccessType.FIELD)
-class CharterWithRentItemDto(
+data class CharterWithRentItemDto(
 
         @field:XmlElement(name = "보증금액")
         var guaranteePrice: String? = null,

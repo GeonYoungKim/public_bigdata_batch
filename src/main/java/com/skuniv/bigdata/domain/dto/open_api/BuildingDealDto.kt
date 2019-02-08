@@ -1,6 +1,7 @@
 package com.skuniv.bigdata.domain.dto.open_api
 
 open class BuildingDealDto(
-        var buildingType: Int? = null,
-        var dealType: Int? = null
+        var buildingType: String? = null,
+        var dealType: String? = null,
+        var apiKind: String? = null
 )

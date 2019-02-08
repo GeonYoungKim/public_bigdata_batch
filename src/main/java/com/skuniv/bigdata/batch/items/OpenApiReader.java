@@ -1,10 +1,12 @@
-package com.skuniv.bigdata.batch.open_api;
+package com.skuniv.bigdata.batch.items;
 
 import com.google.gson.Gson;
 import com.skuniv.bigdata.domain.dto.BargainOpenApiDto;
 import com.skuniv.bigdata.domain.dto.CharterWithRentOpenApiDto;
 import com.skuniv.bigdata.domain.dto.open_api.BuildingDealDto;
+import com.skuniv.bigdata.util.DateUtil;
 import com.skuniv.bigdata.util.OpenApiConstants;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
@@ -12,34 +14,34 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 @Component
 @StepScope
-public class OpenApiReader implements ItemReader<String>, StepExecutionListener {
+@RequiredArgsConstructor
+public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecutionListener {
 
-    @Autowired
-    private Gson gson;
+    private static final Gson gson = new Gson();
+    private final RestTemplate restTemplate;
 
     private String url, buildingType, dealType;
     private Iterator<URI> iter;
-    private final RestTemplate restTemplate = new RestTemplate();
+
+    @Value("${serviceKey}")
+    private String serviceKey;
+
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMM");
-        Date currentTime = new Date();
-        String date = formatter.format(currentTime);
+        String date = DateUtil.createCurrent();
 
         if (iter == null) {
             ExecutionContext ctx = stepExecution.getExecutionContext();
@@ -55,7 +57,8 @@ public class OpenApiReader implements ItemReader<String>, StepExecutionListener 
                 try {
                     urlList.add(new URI(sb
                             .append(String.format(url, groupIter.next(), date))
-                            .append(OpenApiConstants.SERVER_KEY)
+                            .append(OpenApiConstants.SERVICE_KEY_PARAM)
+                            .append(serviceKey)
                             .toString()));
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
@@ -65,22 +68,22 @@ public class OpenApiReader implements ItemReader<String>, StepExecutionListener 
         }
     }
 
-    private void setBuildingWithDeal(BuildingDealDto buildingDealDto){
-        buildingDealDto.setDealType(Integer.parseInt(dealType));
-        buildingDealDto.setBuildingType(Integer.parseInt(buildingType));
+    private void setBuildingWithDeal(BuildingDealDto buildingDealDto) {
+        buildingDealDto.setDealType(dealType);
+        buildingDealDto.setBuildingType(buildingType);
     }
 
     @Override
-    public String read() throws Exception {
+    public BuildingDealDto read() throws Exception {
         while (iter.hasNext()) {
             if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
                 BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(iter.next(), BargainOpenApiDto.class);
                 setBuildingWithDeal(bargainOpenApiDto);
-                return gson.toJson(bargainOpenApiDto);
+                return bargainOpenApiDto;
             }
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = restTemplate.getForObject(iter.next(), CharterWithRentOpenApiDto.class);
             setBuildingWithDeal(charterWithRentOpenApiDto);
-            return gson.toJson(charterWithRentOpenApiDto);
+            return charterWithRentOpenApiDto;
         }
         return null;
     }

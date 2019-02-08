@@ -3,6 +3,7 @@ package com.skuniv.bigdata;
 import com.google.gson.Gson;
 import com.skuniv.bigdata.domain.dto.BargainOpenApiDto;
 import com.skuniv.bigdata.domain.dto.CharterWithRentOpenApiDto;
+import com.skuniv.bigdata.domain.dto.open_api.CharterWithRentItemDto;
 import com.skuniv.bigdata.util.OpenApiConstants;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@EnableBatchProcessing
+//@EnableBatchProcessing
 @SpringBootApplication
 public class BigdataApplication {
     public static void main(String[] args) throws UnsupportedEncodingException, URISyntaxException {
@@ -22,7 +23,9 @@ public class BigdataApplication {
 
         RestTemplate restTemplate = new RestTemplate();
         CharterWithRentOpenApiDto bargainOpenApiDto = restTemplate.getForObject(url, CharterWithRentOpenApiDto.class);
-        System.out.println(gson.toJson(bargainOpenApiDto));
+        for(CharterWithRentItemDto item : bargainOpenApiDto.getBody().getItem()){
+            System.out.println(item.toString());
+        }
         SpringApplication.run(BigdataApplication.class, args);
     }
 }

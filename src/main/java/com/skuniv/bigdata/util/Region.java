@@ -1,8 +1,10 @@
 package com.skuniv.bigdata.util;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum Region {
     SEOUL_GANGNAM("11","11680")
     ,SEOUL_GANGDONG("11","11740")
@@ -265,12 +267,6 @@ public enum Region {
     ,JEJU_SEOGUIPO("50","50130")
     ,JEJU_JEJU("50","50110")
     ;
-
     private String city;
     private String group;
-
-    Region(String city, String group) {
-        this.city = city;
-        this.group = group;
-    }
 }
