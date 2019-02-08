@@ -1,6 +1,7 @@
 package com.skuniv.bigdata.domain.dto.open_api
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import lombok.Builder
 import java.io.Serializable
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
@@ -10,7 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "item")
 @XmlAccessorType(XmlAccessType.FIELD)
-class BargainItemDto(
+@Builder
+data class BargainItemDto(
 
         @field:XmlElement(name = "거래금액")
         var dealPrice: String? = null,

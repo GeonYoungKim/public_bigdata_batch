@@ -1,8 +1,10 @@
 package com.skuniv.bigdata.batch.items;
 
 import com.google.gson.Gson;
+import com.skuniv.bigdata.config.TemplateConfig;
 import com.skuniv.bigdata.domain.dto.BargainOpenApiDto;
 import com.skuniv.bigdata.domain.dto.CharterWithRentOpenApiDto;
+import com.skuniv.bigdata.domain.dto.YamlDto;
 import com.skuniv.bigdata.domain.dto.open_api.BuildingDealDto;
 import com.skuniv.bigdata.util.DateUtil;
 import com.skuniv.bigdata.util.OpenApiConstants;
@@ -14,7 +16,7 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,16 +29,15 @@ import java.util.List;
 @Component
 @StepScope
 @RequiredArgsConstructor
+@Import({YamlDto.class, TemplateConfig.class})
 public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecutionListener {
 
     private static final Gson gson = new Gson();
     private final RestTemplate restTemplate;
+    private final YamlDto yamlDto;
 
     private String url, buildingType, dealType;
     private Iterator<URI> iter;
-
-    @Value("${serviceKey}")
-    private String serviceKey;
 
 
     @Override
@@ -58,7 +59,7 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
                     urlList.add(new URI(sb
                             .append(String.format(url, groupIter.next(), date))
                             .append(OpenApiConstants.SERVICE_KEY_PARAM)
-                            .append(serviceKey)
+                            .append(yamlDto.getServiceKey())
                             .toString()));
                 } catch (URISyntaxException e) {
                     e.printStackTrace();

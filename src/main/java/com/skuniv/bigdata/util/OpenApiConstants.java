@@ -15,12 +15,14 @@ public final class OpenApiConstants {
     public static String BARGAIN_NUM = "1";
     public static String CHARTER_RENT_NUM = "2";
 
-    public static String PARTITION_KEY = "partition_";
-    public static String URL = "url";
-    public static String API_KIND = "apiKind";
-    public static String BUILDING_TYPE = "buildingType";
-    public static String DEAL_TYPE = "dealType";
-    public static String SERVICE_KEY_PARAM = "&serviceKey=";
+    public static final String OLD = "_old";
+    public static final String FILE_DELEMETER = "/";
+    public static final String PARTITION_KEY = "partition_";
+    public static final String URL = "url";
+    public static final String API_KIND = "apiKind";
+    public static final String BUILDING_TYPE = "buildingType";
+    public static final String DEAL_TYPE = "dealType";
+    public static final String SERVICE_KEY_PARAM = "&serviceKey=";
 
 
     @Getter

@@ -17,8 +17,8 @@ public class OpenApiPartitioner implements Partitioner {
         int i = 0;
         for (OpenApiConstants.OpenApiRequest myEnum : OpenApiConstants.OpenApiRequest.values()) {
             ExecutionContext context = new ExecutionContext();
-            context.putString(OpenApiConstants.API_KIND,myEnum.name());
-            context.putString(OpenApiConstants.URL,myEnum.getUrl());
+            context.putString(OpenApiConstants.API_KIND, myEnum.name());
+            context.putString(OpenApiConstants.URL, myEnum.getUrl());
             context.putString(OpenApiConstants.BUILDING_TYPE, myEnum.getBuildingType());
             context.putString(OpenApiConstants.DEAL_TYPE, myEnum.getDealType());
             map.put(OpenApiConstants.PARTITION_KEY + i, context);
