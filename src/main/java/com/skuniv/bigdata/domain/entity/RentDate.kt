@@ -7,9 +7,12 @@ import javax.persistence.*
 @Entity
 data class RentDate(
         @Id
-        @ManyToOne
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        val id: Long? =null,
+
+        @ManyToOne(cascade = arrayOf(CascadeType.ALL))
         val building: Building? = null,
-        @Id
+
         @Temporal(TemporalType.DATE)
         val date: Date? = null,
         @Column(name = "guarantee_price")

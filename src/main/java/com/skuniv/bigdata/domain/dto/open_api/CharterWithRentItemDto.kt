@@ -38,7 +38,7 @@ data class CharterWithRentItemDto(
         var buildingNum: String? = null,
 
         @field:XmlElement(name = "지역코드")
-        var regionCode: Int = 0,
+        var regionCode: String? = null,
 
         @field:XmlElement(name = "층")
         var floor: Int = 0

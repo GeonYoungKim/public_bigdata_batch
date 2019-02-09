@@ -1,6 +1,7 @@
 package com.skuniv.bigdata.domain.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import lombok.Builder
 import java.io.Serializable
 import javax.persistence.*
 
@@ -8,7 +9,7 @@ import javax.persistence.*
 data class Building(
         @Id
         @GeneratedValue
-        var no: Long,
+        var no: Long? = null,
         var city: Int,
         var groop: Int,
         var dong: String,

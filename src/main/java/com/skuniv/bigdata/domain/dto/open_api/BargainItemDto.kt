@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "item")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Builder
 data class BargainItemDto(
 
         @field:XmlElement(name = "거래금액")
@@ -42,7 +41,7 @@ data class BargainItemDto(
         var buildingNum: String? = null,
 
         @field:XmlElement(name = "지역코드")
-        var regionCode: Int = 0,
+        var regionCode: String? = null,
 
         @field:XmlElement(name = "층")
         var floor: Int = 0
