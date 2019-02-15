@@ -5,17 +5,17 @@ spring:
 #    username: root
 #    driver-class-name: com.mysql.jdbc.Driver
 
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQL5Dialect
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        dialect: org.hibernate.dialect.MySQL5Dialect
   batch:
     job:
-      enabled: true
+      enabled: false
 logging:
   level:
     org:
