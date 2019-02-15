@@ -85,6 +85,7 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
 
     @Override
     public BuildingDealDto read() throws Exception {
+        log.warn("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         while (iter.hasNext()) {
             if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
                 BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(iter.next(), BargainOpenApiDto.class);
