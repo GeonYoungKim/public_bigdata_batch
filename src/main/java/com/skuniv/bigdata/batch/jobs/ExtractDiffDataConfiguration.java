@@ -44,7 +44,7 @@ public class ExtractDiffDataConfiguration extends DefaultBatchConfigurer {
     public Step extractDiffDataPartitionStep()
             throws UnexpectedInputException, MalformedURLException, ParseException {
         return stepBuilderFactory.get("apiCallPartitionStep")
-                .partitioner("slaveStep", openApiPartitioner)/*.partitionHandler(partitionHandler())*/
+                .partitioner("slaveStep", openApiPartitioner).partitionHandler(extractDiffDataPartitionHandler())
                 .step(extractDiffDataTrtStep())
                 .build();
     }
@@ -55,17 +55,18 @@ public class ExtractDiffDataConfiguration extends DefaultBatchConfigurer {
                 .tasklet(extractDiffDataTasklet)
                 .build();
     }
+
     @Bean
-    public PartitionHandler partitionHandler() {
+    public PartitionHandler extractDiffDataPartitionHandler() {
         TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
         taskExecutorPartitionHandler.setGridSize(300);
-        taskExecutorPartitionHandler.setTaskExecutor(threadPoolExecutor());
+        taskExecutorPartitionHandler.setTaskExecutor(extractDiffDataThreadPoolExecutor());
         taskExecutorPartitionHandler.setStep(extractDiffDataTrtStep());
         return taskExecutorPartitionHandler;
     }
 
     @Bean
-    public ThreadPoolTaskExecutor threadPoolExecutor() {
+    public ThreadPoolTaskExecutor extractDiffDataThreadPoolExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setCorePoolSize(300);
         return threadPoolTaskExecutor;

@@ -46,9 +46,9 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
 
     @Bean
     public Step apiCallPartitionStep()
-            throws UnexpectedInputException, MalformedURLException, ParseException {
+            throws UnexpectedInputException, ParseException {
         return stepBuilderFactory.get("apiCallPartitionStep")
-                .partitioner("apiCallPartitionStep", openApiPartitioner).partitionHandler(partitionHandler())
+                .partitioner("apiCallPartitionStep", openApiPartitioner).partitionHandler(feedingApiDataPartitionHandler())
                 .step(apiCallTrtStep())
                 .build();
     }
@@ -63,16 +63,16 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
     }
 
     @Bean
-    public PartitionHandler partitionHandler() {
+    public PartitionHandler feedingApiDataPartitionHandler() {
         TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
         taskExecutorPartitionHandler.setGridSize(300);
-        taskExecutorPartitionHandler.setTaskExecutor(threadPoolExecutor());
+        taskExecutorPartitionHandler.setTaskExecutor(feedingApiDataThreadPoolExecutor());
         taskExecutorPartitionHandler.setStep(apiCallTrtStep());
         return taskExecutorPartitionHandler;
     }
 
     @Bean
-    public ThreadPoolTaskExecutor threadPoolExecutor() {
+    public ThreadPoolTaskExecutor feedingApiDataThreadPoolExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setCorePoolSize(300);
         return threadPoolTaskExecutor;

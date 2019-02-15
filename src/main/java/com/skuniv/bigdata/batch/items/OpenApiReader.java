@@ -1,7 +1,7 @@
 package com.skuniv.bigdata.batch.items;
 
 import com.google.gson.Gson;
-import com.skuniv.bigdata.config.TemplateConfig;
+import com.skuniv.bigdata.configuration.TemplateConfiguration;
 import com.skuniv.bigdata.domain.dto.BargainOpenApiDto;
 import com.skuniv.bigdata.domain.dto.CharterWithRentOpenApiDto;
 import com.skuniv.bigdata.domain.dto.YamlDto;
@@ -29,7 +29,7 @@ import java.util.List;
 @Component
 @StepScope
 @RequiredArgsConstructor
-@Import({YamlDto.class, TemplateConfig.class})
+@Import({YamlDto.class, TemplateConfiguration.class})
 public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecutionListener {
 
     private static final Gson gson = new Gson();
