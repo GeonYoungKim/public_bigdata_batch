@@ -17,7 +17,7 @@ spring:
     web-application-type: none
   batch:
     job:
-      enabled: false
+      enabled: true
 logging:
   level:
     org:
