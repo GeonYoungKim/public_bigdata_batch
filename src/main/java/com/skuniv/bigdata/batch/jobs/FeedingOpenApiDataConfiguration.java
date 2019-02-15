@@ -31,6 +31,7 @@ import java.net.MalformedURLException;
 @EnableBatchProcessing
 @RequiredArgsConstructor
 @Import({OpenApiReader.class, OpenApiWriter.class, OpenApiPartitioner.class})
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class FeedingOpenApiDataConfiguration {
 
     private final OpenApiReader openApiReader;
