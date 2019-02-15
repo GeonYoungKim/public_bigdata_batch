@@ -29,7 +29,7 @@ import java.net.MalformedURLException;
 @EnableBatchProcessing
 @Import({OpenApiPartitioner.class, ExtractDiffDataTasklet.class})
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
-public class ExtractDiffDataConfiguration extends DefaultBatchConfigurer {
+public class ExtractDiffDataConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
