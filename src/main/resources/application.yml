@@ -1,6 +1,4 @@
 spring:
-  profiles: dev
-
   datasource:
     url: jdbc:mysql://117.17.142.207:3306/real_estate_data?useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=utf-8
     password: cs616
