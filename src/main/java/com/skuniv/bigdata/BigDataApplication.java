@@ -5,7 +5,9 @@ import com.skuniv.bigdata.domain.dto.CharterWithRentOpenApiDto;
 import com.skuniv.bigdata.domain.dto.open_api.BargainItemDto;
 import com.skuniv.bigdata.domain.dto.open_api.CharterWithRentItemDto;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;

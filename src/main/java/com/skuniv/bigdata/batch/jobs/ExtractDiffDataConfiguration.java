@@ -14,6 +14,8 @@ import org.springframework.batch.core.partition.PartitionHandler;
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,6 +28,7 @@ import java.net.MalformedURLException;
 @RequiredArgsConstructor
 @EnableBatchProcessing
 @Import({OpenApiPartitioner.class, ExtractDiffDataTasklet.class})
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class ExtractDiffDataConfiguration extends DefaultBatchConfigurer {
 
     private final JobBuilderFactory jobBuilderFactory;
