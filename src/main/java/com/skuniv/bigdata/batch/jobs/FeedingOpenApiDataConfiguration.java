@@ -4,7 +4,6 @@ package com.skuniv.bigdata.batch.jobs;
 import com.skuniv.bigdata.batch.items.OpenApiPartitioner;
 import com.skuniv.bigdata.batch.items.OpenApiReader;
 import com.skuniv.bigdata.batch.items.OpenApiWriter;
-import com.skuniv.bigdata.domain.dto.open_api.BuildingDealDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -13,15 +12,12 @@ import org.springframework.batch.core.configuration.annotation.DefaultBatchConfi
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.partition.PartitionHandler;
-import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.net.MalformedURLException;
 
@@ -49,7 +45,7 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
     public Step apiCallPartitionStep()
             throws UnexpectedInputException, ParseException {
         return stepBuilderFactory.get("apiCallPartitionStep")
-                .partitioner("apiCallPartitionStep", openApiPartitioner).partitionHandler(feedingApiDataPartitionHandler())
+                .partitioner("apiCallPartitionStep", openApiPartitioner)/*.partitionHandler(feedingApiDataPartitionHandler())*/
                 .step(apiCallTrtStep())
                 .build();
     }
@@ -69,19 +65,19 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
                 .build();
     }
 
-    @Bean
-    public PartitionHandler feedingApiDataPartitionHandler() {
-        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
-        taskExecutorPartitionHandler.setGridSize(300);
-        taskExecutorPartitionHandler.setTaskExecutor(feedingApiDataThreadPoolExecutor());
-        taskExecutorPartitionHandler.setStep(apiCallTrtStep());
-        return taskExecutorPartitionHandler;
-    }
-
-    @Bean
-    public ThreadPoolTaskExecutor feedingApiDataThreadPoolExecutor() {
-        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setCorePoolSize(300);
-        return threadPoolTaskExecutor;
-    }
+//    @Bean
+//    public PartitionHandler feedingApiDataPartitionHandler() {
+//        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
+//        taskExecutorPartitionHandler.setGridSize(300);
+//        taskExecutorPartitionHandler.setTaskExecutor(feedingApiDataThreadPoolExecutor());
+//        taskExecutorPartitionHandler.setStep(apiCallTrtStep());
+//        return taskExecutorPartitionHandler;
+//    }
+//
+//    @Bean
+//    public ThreadPoolTaskExecutor feedingApiDataThreadPoolExecutor() {
+//        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+//        threadPoolTaskExecutor.setCorePoolSize(300);
+//        return threadPoolTaskExecutor;
+//    }
 }
