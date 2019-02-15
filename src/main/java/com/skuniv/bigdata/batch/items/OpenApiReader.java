@@ -9,6 +9,7 @@ import com.skuniv.bigdata.domain.dto.open_api.BuildingDealDto;
 import com.skuniv.bigdata.util.DateUtil;
 import com.skuniv.bigdata.util.OpenApiConstants;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Slf4j
 @Component
 @StepScope
 @RequiredArgsConstructor
@@ -44,14 +46,20 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
     public void beforeStep(StepExecution stepExecution) {
         String date = DateUtil.createCurrent();
 
+        log.warn("date => {}", date);
         if (iter == null) {
             ExecutionContext ctx = stepExecution.getExecutionContext();
             url = (String) ctx.get(OpenApiConstants.URL);
             buildingType = (String) ctx.get(OpenApiConstants.BUILDING_TYPE);
             dealType = (String) ctx.get(OpenApiConstants.DEAL_TYPE);
 
+            log.warn("url => {}", url);
+            log.warn("buildingType => {}", buildingType);
+            log.warn("dealType => {}", dealType);
+
             List<URI> urlList = new ArrayList<>();
             Iterator<String> groupIter = OpenApiConstants.regionMap.keySet().iterator();
+            log.warn("groupIter => {}", groupIter);
             StringBuilder sb = new StringBuilder();
 
             while (groupIter.hasNext()) {
@@ -65,6 +73,7 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
                     e.printStackTrace();
                 }
             }
+            log.warn("urlList => {}", urlList);
             iter = urlList.iterator();
         }
     }
