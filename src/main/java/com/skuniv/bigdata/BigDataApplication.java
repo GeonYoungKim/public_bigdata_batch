@@ -1,9 +1,7 @@
 package com.skuniv.bigdata;
 
 import com.skuniv.bigdata.domain.dto.BargainOpenApiDto;
-import com.skuniv.bigdata.domain.dto.CharterWithRentOpenApiDto;
 import com.skuniv.bigdata.domain.dto.open_api.BargainItemDto;
-import com.skuniv.bigdata.domain.dto.open_api.CharterWithRentItemDto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +18,7 @@ public class BigDataApplication {
 
         RestTemplate restTemplate = new RestTemplate();
         BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(url, BargainOpenApiDto.class);
-        for(BargainItemDto item : bargainOpenApiDto.getBody().getItem()){
+        for (BargainItemDto item : bargainOpenApiDto.getBody().getItem()) {
             System.out.println(item.toString());
         }
         SpringApplication.run(BigDataApplication.class, args);
