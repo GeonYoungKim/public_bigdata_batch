@@ -17,6 +17,7 @@ import org.springframework.batch.core.partition.PartitionHandler;
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -56,9 +57,15 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
 
     @Bean
     public Step apiCallTrtStep() {
-        return stepBuilderFactory.get("apiCallTrtStep").<BuildingDealDto, BuildingDealDto>chunk(6)
-                .reader(openApiReader)
-                .writer(openApiWriter)
+        return stepBuilderFactory.get("apiCallTrtStep")
+                .tasklet(((contribution, chunkContext) -> {
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+                    return RepeatStatus.FINISHED;
+                }))
+//                .<BuildingDealDto, BuildingDealDto>chunk(6)
+
+//                .reader(openApiReader)
+//                .writer(openApiWriter)
                 .build();
     }
 
