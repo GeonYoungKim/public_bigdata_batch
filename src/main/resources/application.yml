@@ -13,6 +13,8 @@ spring:
 #      hibernate:
 #        format_sql: true
 #        dialect: org.hibernate.dialect.MySQL5Dialect
+  main:
+    web-application-type: none
   batch:
     job:
       enabled: false
