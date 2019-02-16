@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -62,19 +61,20 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
             log.warn("groupIter => {}", groupIter);
             StringBuilder sb = new StringBuilder();
 
-            while (groupIter.hasNext()) {
-                try {
-                    urlList.add(new URI(sb
-                            .append(String.format(url, groupIter.next(), date))
-                            .append(OpenApiConstants.SERVICE_KEY_PARAM)
-                            .append(yamlDto.getServiceKey())
-                            .toString()));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            }
-            log.warn("urlList => {}", urlList);
-            iter = urlList.iterator();
+            log.warn("service Key => {}", yamlDto.getServiceKey());
+
+//            while (groupIter.hasNext()) {
+//                try {
+//                    urlList.add(new URI(sb
+//                            .append(String.format(url, groupIter.next(), date))
+//                            .append(OpenApiConstants.SERVICE_KEY_PARAM)
+//                            .append(yamlDto.getServiceKey())
+//                            .toString()));
+//                } catch (URISyntaxException e) {
+////                    e.printStackTrace();
+//                }
+//            }
+//            iter = urlList.iterator();
         }
     }
 
