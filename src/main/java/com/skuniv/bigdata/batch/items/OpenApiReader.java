@@ -46,23 +46,16 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
     public void beforeStep(StepExecution stepExecution) {
         String date = DateUtil.createCurrent();
 
-        log.warn("date => {}", date);
         if (iter == null) {
             ExecutionContext ctx = stepExecution.getExecutionContext();
             url = (String) ctx.get(OpenApiConstants.URL);
             buildingType = (String) ctx.get(OpenApiConstants.BUILDING_TYPE);
             dealType = (String) ctx.get(OpenApiConstants.DEAL_TYPE);
 
-            log.warn("url => {}", url);
-            log.warn("buildingType => {}", buildingType);
-            log.warn("dealType => {}", dealType);
-
             List<URI> urlList = new ArrayList<>();
             Iterator<String> groupIter = OpenApiConstants.regionMap.keySet().iterator();
-            log.warn("groupIter => {}", groupIter);
             StringBuilder sb = new StringBuilder();
             yamlDto.setServiceKey(yamlDto.getServiceKey().replaceAll("\\\\",""));
-            log.warn("service Key => {}", yamlDto.getServiceKey());
 
             while (groupIter.hasNext()) {
                 try {
@@ -90,12 +83,10 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
             if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
                 BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(iter.next(), BargainOpenApiDto.class);
                 setBuildingWithDeal(bargainOpenApiDto);
-                log.warn("bargainOpenApiDto => {}", bargainOpenApiDto.toString());
                 return bargainOpenApiDto;
             }
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = restTemplate.getForObject(iter.next(), CharterWithRentOpenApiDto.class);
             setBuildingWithDeal(charterWithRentOpenApiDto);
-            log.warn("charterWithRentOpenApiDto => {}", charterWithRentOpenApiDto.toString());
             return charterWithRentOpenApiDto;
         }
         return null;

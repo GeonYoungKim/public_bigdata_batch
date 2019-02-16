@@ -70,27 +70,24 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
         ExecutionContext ctx = stepExecution.getExecutionContext();
         fileName = (String) ctx.get(OpenApiConstants.API_KIND);
         String fileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName + FILE_EXTENSION;
-        log.warn("fileFullPath => {}", fileFullPath);
         File f = new File(fileFullPath);
-        log.warn("file => {}", f);
+        log.warn("file instance => {}", f.getClass().getName());
+        if (f.exists() && !f.isDirectory()) {
+            log.warn("file exist!!!!!");
+            StringBuilder sb = new StringBuilder();
+            sb.append("mv ").append(fileFullPath).append(" ").append(fileFullPath).append(OpenApiConstants.OLD);
+            try {
+                Runtime.getRuntime().exec(sb.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try {
             bufferedWriter = new BufferedWriter(new FileWriter(fileFullPath));
-            bufferedWriter.write("qwerqwer");
+            log.warn("bufferedWriter new create => {}", bufferedWriter);
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        if (f.exists() && !f.isDirectory()) {
-//            log.warn("file exist!!!!!");
-//            StringBuilder sb = new StringBuilder();
-//            sb.append("mv ").append(fileFullPath).append(" ").append(fileFullPath).append(OpenApiConstants.OLD);
-//            try {
-//                Runtime.getRuntime().exec(sb.toString());
-//                bufferedWriter = new BufferedWriter(new FileWriter(fileFullPath));
-//                log.warn("bufferedWriter new create => {}", bufferedWriter);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     @Override
