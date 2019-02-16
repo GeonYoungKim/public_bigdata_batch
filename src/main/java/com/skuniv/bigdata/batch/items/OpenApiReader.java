@@ -87,14 +87,15 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
     @Override
     public BuildingDealDto read() throws Exception {
         while (iter.hasNext()) {
-            log.warn("iter => {}", iter);
             if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
                 BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(iter.next(), BargainOpenApiDto.class);
                 setBuildingWithDeal(bargainOpenApiDto);
+                log.warn("bargainOpenApiDto => {}", bargainOpenApiDto.toString());
                 return bargainOpenApiDto;
             }
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = restTemplate.getForObject(iter.next(), CharterWithRentOpenApiDto.class);
             setBuildingWithDeal(charterWithRentOpenApiDto);
+            log.warn("charterWithRentOpenApiDto => {}", charterWithRentOpenApiDto.toString());
             return charterWithRentOpenApiDto;
         }
         return null;
