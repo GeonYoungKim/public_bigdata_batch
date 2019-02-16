@@ -46,15 +46,15 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     private void divisionItem(BuildingDealDto item) throws IOException {
         if (StringUtils.equals(item.getDealType(), OpenApiConstants.BARGAIN_NUM)) {
             BargainOpenApiDto bargainOpenApiDto = (BargainOpenApiDto) item;
-            log.warn("body => {}", gson.toJson(bargainOpenApiDto.getBody()));
-            log.warn("item => {}", gson.toJson(bargainOpenApiDto.getBody().getItem()));
+            log.warn("bargainOpenApiDto body => {}", gson.toJson(bargainOpenApiDto.getBody()));
+            log.warn("bargainOpenApiDto item => {}", gson.toJson(bargainOpenApiDto.getBody().getItem()));
             for (BargainItemDto bargainItemDto : bargainOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(bargainItemDto));
             }
         } else {
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = (CharterWithRentOpenApiDto) item;
-            log.warn("body => {}", gson.toJson(charterWithRentOpenApiDto.getBody()));
-            log.warn("item => {}", gson.toJson(charterWithRentOpenApiDto.getBody().getItem()));
+            log.warn("charterWithRentOpenApiDto body => {}", gson.toJson(charterWithRentOpenApiDto.getBody()));
+            log.warn("charterWithRentOpenApiDto item => {}", gson.toJson(charterWithRentOpenApiDto.getBody().getItem()));
             for (CharterWithRentItemDto charterWithRentItemDto : charterWithRentOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(charterWithRentItemDto));
             }

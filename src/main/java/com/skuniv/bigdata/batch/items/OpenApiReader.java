@@ -55,7 +55,7 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
             List<URI> urlList = new ArrayList<>();
             Iterator<String> groupIter = OpenApiConstants.regionMap.keySet().iterator();
             StringBuilder sb = new StringBuilder();
-            yamlDto.setServiceKey(yamlDto.getServiceKey().replaceAll("\\\\",""));
+            yamlDto.setServiceKey(yamlDto.getServiceKey().replaceAll("\\\\", ""));
 
             while (groupIter.hasNext()) {
                 try {
@@ -83,11 +83,13 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
             if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
                 BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(iter.next(), BargainOpenApiDto.class);
                 setBuildingWithDeal(bargainOpenApiDto);
-                return bargainOpenApiDto;
+                if (bargainOpenApiDto.getBody().getTotalCount() > 0)
+                    return bargainOpenApiDto;
             }
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = restTemplate.getForObject(iter.next(), CharterWithRentOpenApiDto.class);
             setBuildingWithDeal(charterWithRentOpenApiDto);
-            return charterWithRentOpenApiDto;
+            if (charterWithRentOpenApiDto.getBody().getTotalCount() > 0)
+                return charterWithRentOpenApiDto;
         }
         return null;
     }
