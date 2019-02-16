@@ -33,8 +33,6 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     private static final Gson gson = new Gson();
     private final YamlDto yamlDto;
 
-    private final String FILE_EXTENSION = ".txt";
-
     private String fileName;
     private BufferedWriter bufferedWriter;
 
@@ -46,15 +44,11 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     private void divisionItem(BuildingDealDto item) throws IOException {
         if (StringUtils.equals(item.getDealType(), OpenApiConstants.BARGAIN_NUM)) {
             BargainOpenApiDto bargainOpenApiDto = (BargainOpenApiDto) item;
-            log.warn("bargainOpenApiDto body => {}", gson.toJson(bargainOpenApiDto.getBody()));
-            log.warn("bargainOpenApiDto item => {}", gson.toJson(bargainOpenApiDto.getBody().getItem()));
             for (BargainItemDto bargainItemDto : bargainOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(bargainItemDto));
             }
         } else {
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = (CharterWithRentOpenApiDto) item;
-            log.warn("charterWithRentOpenApiDto body => {}", gson.toJson(charterWithRentOpenApiDto.getBody()));
-            log.warn("charterWithRentOpenApiDto item => {}", gson.toJson(charterWithRentOpenApiDto.getBody().getItem()));
             for (CharterWithRentItemDto charterWithRentItemDto : charterWithRentOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(charterWithRentItemDto));
             }
@@ -73,7 +67,7 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     public void beforeStep(StepExecution stepExecution) {
         ExecutionContext ctx = stepExecution.getExecutionContext();
         fileName = (String) ctx.get(OpenApiConstants.API_KIND);
-        String fileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName + FILE_EXTENSION;
+        String fileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName;
         File f = new File(fileFullPath);
         log.warn("file instance => {}", f.getClass().getName());
         if (f.exists() && !f.isDirectory()) {
