@@ -33,6 +33,8 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     private static final Gson gson = new Gson();
     private final YamlDto yamlDto;
 
+    private final String FILE_EXTENSION = ".txt";
+
     private String fileName;
     private BufferedWriter bufferedWriter;
 
@@ -67,9 +69,10 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     public void beforeStep(StepExecution stepExecution) {
         ExecutionContext ctx = stepExecution.getExecutionContext();
         fileName = (String) ctx.get(OpenApiConstants.API_KIND);
-        String fileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName;
+        String fileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName + FILE_EXTENSION;
         log.warn("fileFullPath => {}", fileFullPath);
         File f = new File(fileFullPath);
+        log.warn("file => {}", f);
         if (f.exists() && !f.isDirectory()) {
             log.warn("file exist!!!!!");
             StringBuilder sb = new StringBuilder();
