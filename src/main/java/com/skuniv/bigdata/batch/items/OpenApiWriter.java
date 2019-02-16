@@ -73,18 +73,24 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
         log.warn("fileFullPath => {}", fileFullPath);
         File f = new File(fileFullPath);
         log.warn("file => {}", f);
-        if (f.exists() && !f.isDirectory()) {
-            log.warn("file exist!!!!!");
-            StringBuilder sb = new StringBuilder();
-            sb.append("mv ").append(fileFullPath).append(" ").append(fileFullPath).append(OpenApiConstants.OLD);
-            try {
-                Runtime.getRuntime().exec(sb.toString());
-                bufferedWriter = new BufferedWriter(new FileWriter(fileFullPath));
-                log.warn("bufferedWriter new create => {}", bufferedWriter);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            bufferedWriter = new BufferedWriter(new FileWriter(fileFullPath));
+            bufferedWriter.write("qwerqwer");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+//        if (f.exists() && !f.isDirectory()) {
+//            log.warn("file exist!!!!!");
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("mv ").append(fileFullPath).append(" ").append(fileFullPath).append(OpenApiConstants.OLD);
+//            try {
+//                Runtime.getRuntime().exec(sb.toString());
+//                bufferedWriter = new BufferedWriter(new FileWriter(fileFullPath));
+//                log.warn("bufferedWriter new create => {}", bufferedWriter);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
