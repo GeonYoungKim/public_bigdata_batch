@@ -55,10 +55,10 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
 
             List<URI> urlList = new ArrayList<>();
             Iterator<String> groupIter = OpenApiConstants.regionMap.keySet().iterator();
-            StringBuilder sb = new StringBuilder();
             yamlDto.setServiceKey(yamlDto.getServiceKey().replaceAll("\\\\", ""));
 
             while (groupIter.hasNext()) {
+                StringBuilder sb = new StringBuilder();
                 try {
                     urlList.add(new URI(sb
                             .append(String.format(url, groupIter.next(), date))
