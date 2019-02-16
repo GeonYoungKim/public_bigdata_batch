@@ -84,12 +84,24 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
                 URI uri = iter.next();
                 BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(uri, BargainOpenApiDto.class);
                 setBuildingWithDeal(bargainOpenApiDto);
-                return bargainOpenApiDto;
+                if(bargainOpenApiDto.getBody() == null){
+                    log.warn("bargainOpenApiDto iter => {}", uri);
+                    log.warn("bargainOpenApiDto => {}", bargainOpenApiDto);
+                }else{
+                    return bargainOpenApiDto;
+                }
+
             }
             URI uri = iter.next();
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = restTemplate.getForObject(iter.next(), CharterWithRentOpenApiDto.class);
             setBuildingWithDeal(charterWithRentOpenApiDto);
-            return charterWithRentOpenApiDto;
+            if(charterWithRentOpenApiDto.getBody() == null){
+                log.warn("charterWithRentOpenApiDto iter => {}", uri);
+                log.warn("charterWithRentOpenApiDto => {}", charterWithRentOpenApiDto);
+            }else{
+                return charterWithRentOpenApiDto;
+            }
+
         }
         return null;
     }
