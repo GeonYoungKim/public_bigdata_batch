@@ -8,7 +8,6 @@ import com.skuniv.bigdata.domain.dto.YamlDto;
 import com.skuniv.bigdata.domain.dto.open_api.BuildingDealDto;
 import com.skuniv.bigdata.util.DateUtil;
 import com.skuniv.bigdata.util.OpenApiConstants;
-import com.sun.jndi.toolkit.url.Uri;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
