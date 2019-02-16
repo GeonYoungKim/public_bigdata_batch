@@ -90,6 +90,7 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
+        System.exit(0);
         return null;
     }
 }
