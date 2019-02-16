@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -63,18 +64,18 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
             yamlDto.setServiceKey(yamlDto.getServiceKey().replaceAll("\\\\",""));
             log.warn("service Key => {}", yamlDto.getServiceKey());
 
-//            while (groupIter.hasNext()) {
-//                try {
-//                    urlList.add(new URI(sb
-//                            .append(String.format(url, groupIter.next(), date))
-//                            .append(OpenApiConstants.SERVICE_KEY_PARAM)
-//                            .append(yamlDto.getServiceKey())
-//                            .toString()));
-//                } catch (URISyntaxException e) {
-////                    e.printStackTrace();
-//                }
-//            }
-//            iter = urlList.iterator();
+            while (groupIter.hasNext()) {
+                try {
+                    urlList.add(new URI(sb
+                            .append(String.format(url, groupIter.next(), date))
+                            .append(OpenApiConstants.SERVICE_KEY_PARAM)
+                            .append(yamlDto.getServiceKey())
+                            .toString()));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+            iter = urlList.iterator();
         }
     }
 
@@ -85,8 +86,8 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
 
     @Override
     public BuildingDealDto read() throws Exception {
-        log.warn("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         while (iter.hasNext()) {
+            log.warn("iter => {}", iter);
             if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
                 BargainOpenApiDto bargainOpenApiDto = restTemplate.getForObject(iter.next(), BargainOpenApiDto.class);
                 setBuildingWithDeal(bargainOpenApiDto);
