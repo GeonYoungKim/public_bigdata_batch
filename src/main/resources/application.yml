@@ -22,5 +22,5 @@ logging:
   level:
     org:
       hibernate: debug
-filePath: /home1/irteam/data
+filePath: /var/lib/jenkins/data
 serviceKey: \%2BOYuTJYMUl8Rx17U1zJFP35LgxFd5b81a94LTqltyHekTu4WdmXxhaBJePS7Y1\%2FppFV3k6aqdSl4DDG\%2FfylR4w\%3D\%3D
