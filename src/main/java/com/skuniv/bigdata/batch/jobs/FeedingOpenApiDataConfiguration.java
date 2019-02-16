@@ -22,8 +22,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.net.MalformedURLException;
-
 @Slf4j
 @Configuration
 @EnableBatchProcessing
@@ -38,7 +36,7 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job apiCallJob() throws MalformedURLException {
+    public Job apiCallJob() {
         return jobBuilderFactory.get("apiCallJob")
                 .start(apiCallPartitionStep())
                 .build();

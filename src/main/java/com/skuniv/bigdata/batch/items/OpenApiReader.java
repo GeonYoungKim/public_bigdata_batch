@@ -60,7 +60,7 @@ public class OpenApiReader implements ItemReader<BuildingDealDto>, StepExecution
             Iterator<String> groupIter = OpenApiConstants.regionMap.keySet().iterator();
             log.warn("groupIter => {}", groupIter);
             StringBuilder sb = new StringBuilder();
-
+            yamlDto.setServiceKey(yamlDto.getServiceKey().replaceAll("\\\\",""));
             log.warn("service Key => {}", yamlDto.getServiceKey());
 
 //            while (groupIter.hasNext()) {
