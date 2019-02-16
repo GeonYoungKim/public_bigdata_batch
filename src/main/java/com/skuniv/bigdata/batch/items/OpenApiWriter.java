@@ -9,6 +9,7 @@ import com.skuniv.bigdata.domain.dto.open_api.BuildingDealDto;
 import com.skuniv.bigdata.domain.dto.open_api.CharterWithRentItemDto;
 import com.skuniv.bigdata.util.OpenApiConstants;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
@@ -24,6 +25,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @StepScope
 @Component
 @RequiredArgsConstructor
@@ -42,11 +44,13 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     private void divisionItem(BuildingDealDto item) throws IOException {
         if (StringUtils.equals(item.getDealType(), OpenApiConstants.BARGAIN_NUM)) {
             BargainOpenApiDto bargainOpenApiDto = (BargainOpenApiDto) item;
+            log.warn("bargainOpenApiDto => {}", gson.toJson(item));
             for (BargainItemDto bargainItemDto : bargainOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(bargainItemDto));
             }
         } else {
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = (CharterWithRentOpenApiDto) item;
+            log.warn("charterWithRentOpenApiDto => {}", gson.toJson(item));
             for (CharterWithRentItemDto charterWithRentItemDto : charterWithRentOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(charterWithRentItemDto));
             }
