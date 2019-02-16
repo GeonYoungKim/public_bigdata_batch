@@ -44,15 +44,11 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     private void divisionItem(BuildingDealDto item) throws IOException {
         if (StringUtils.equals(item.getDealType(), OpenApiConstants.BARGAIN_NUM)) {
             BargainOpenApiDto bargainOpenApiDto = (BargainOpenApiDto) item;
-            log.warn("bargainOpenApiDto body => {}", gson.toJson(bargainOpenApiDto.getBody()));
-            log.warn("bargainOpenApiDto body item => {}", gson.toJson(bargainOpenApiDto.getBody().getItem()));
             for (BargainItemDto bargainItemDto : bargainOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(bargainItemDto));
             }
         } else {
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = (CharterWithRentOpenApiDto) item;
-            log.warn("charterWithRentOpenApiDto body => {}", gson.toJson(charterWithRentOpenApiDto.getBody()));
-            log.warn("charterWithRentOpenApiDto body item => {}", gson.toJson(charterWithRentOpenApiDto.getBody().getItem()));
             for (CharterWithRentItemDto charterWithRentItemDto : charterWithRentOpenApiDto.getBody().getItem()) {
                 write(bufferedWriter, gson.toJson(charterWithRentItemDto));
             }
@@ -72,13 +68,16 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
         ExecutionContext ctx = stepExecution.getExecutionContext();
         fileName = (String) ctx.get(OpenApiConstants.API_KIND);
         String fileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName;
+        log.warn("fileFullPath => {}", fileFullPath);
         File f = new File(fileFullPath);
         if (f.exists() && !f.isDirectory()) {
+            log.warn("file exist!!!!!");
             StringBuilder sb = new StringBuilder();
             sb.append("mv ").append(fileFullPath).append(" ").append(fileFullPath).append(OpenApiConstants.OLD);
             try {
                 Runtime.getRuntime().exec(sb.toString());
                 bufferedWriter = new BufferedWriter(new FileWriter(fileFullPath));
+                log.warn("bufferedWriter new create => {}", bufferedWriter);
             } catch (IOException e) {
                 e.printStackTrace();
             }
