@@ -11,13 +11,9 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import java.net.MalformedURLException;
 
 @Slf4j
 @Configuration
@@ -32,7 +28,8 @@ public class ExtractDiffDataConfiguration {
     private final ExtractDiffDataTasklet extractDiffDataTasklet;
 
     @Bean
-    public Job extractDiffDataJob() throws MalformedURLException {
+    public Job extractDiffDataJob() {
+        log.warn("job starting !!!");
         return jobBuilderFactory.get("extractDiffDataJob")
                 .start(extractDiffDataPartitionStep())
                 .build();
@@ -41,6 +38,7 @@ public class ExtractDiffDataConfiguration {
     @Bean
     public Step extractDiffDataPartitionStep()
             throws UnexpectedInputException, ParseException {
+        log.warn("partitioner step starting !!!");
         return stepBuilderFactory.get("extractDiffDataPartitionStep")
                 .partitioner("slaveStep", openApiPartitioner)
                 .step(extractDiffDataTrtStep())
@@ -49,6 +47,10 @@ public class ExtractDiffDataConfiguration {
 
     @Bean
     public Step extractDiffDataTrtStep() {
+        log.warn("tasklet step starting!!!");
+        for (int i = 0; i < 100; i++) {
+            log.warn("i => {}", i);
+        }
         return stepBuilderFactory.get("extractDiffDataTrtStep")
                 .tasklet(extractDiffDataTasklet)
                 .build();

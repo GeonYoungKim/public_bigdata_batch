@@ -65,6 +65,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener {
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
+        log.warn("beforeStep !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         ExecutionContext ctx = stepExecution.getExecutionContext();
         fileName = (String) ctx.get(OpenApiConstants.API_KIND);
         log.warn("fileName => {}", fileName);
