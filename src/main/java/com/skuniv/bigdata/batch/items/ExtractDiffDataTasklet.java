@@ -28,10 +28,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -150,7 +147,11 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
 //                building = new Building(city, groop, charterWithRentItemDto.getDong(), charterWithRentItemDto.getName(), charterWithRentItemDto.getArea(), charterWithRentItemDto.getFloor(), buildingType, charterWithRentItemDto.getBuildingNum(), String.valueOf(charterWithRentItemDto.getConstructYear()));
                 building = new Building.Builder().city(city).groop(groop).dong(charterWithRentItemDto.getDong())
                         .name(charterWithRentItemDto.getName()).area(charterWithRentItemDto.getArea()).floor(charterWithRentItemDto.getFloor()).type(buildingType)
-                        .buildingNum(charterWithRentItemDto.getBuildingNum()).constructYear(String.valueOf(charterWithRentItemDto.getConstructYear())).build();
+                        .buildingNum(charterWithRentItemDto.getBuildingNum()).constructYear(String.valueOf(charterWithRentItemDto.getConstructYear()))
+                        .bargainDates(new HashSet<BargainDate>())
+                        .charterDates(new HashSet<CharterDate>())
+                        .rentDates(new HashSet<RentDate>())
+                        .build();
             }
             log.warn("building create => {}", building.toString());
             String[] splitDays = charterWithRentItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
