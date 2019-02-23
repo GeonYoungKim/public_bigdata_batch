@@ -9,8 +9,9 @@ data class RentDate(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        @Id
-        var buildingNo: Long? = null,
+        @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+        @JoinColumn(name = "buildingNo")
+        var building: Building? = null,
 
         @Temporal(TemporalType.DATE)
         var date: Date? = null,
@@ -19,12 +20,12 @@ data class RentDate(
         @Column(name = "monthly_price")
         var monthlyPrice: String? = null
 ) : Serializable {
-    private constructor(builder: Builder) : this(builder.id, builder.buildingNo, builder.date, builder.guaranteePrice, builder.monthlyPrice)
+    private constructor(builder: Builder) : this(builder.id, builder.building, builder.date, builder.guaranteePrice, builder.monthlyPrice)
 
     class Builder {
         var id: Long? = null
             private set
-        var buildingNo: Long? = null
+        var building: Building? = null
             private set
         var date: Date? = null
             private set
@@ -34,7 +35,7 @@ data class RentDate(
             private set
 
         fun id(id: Long) = apply { this.id = id }
-        fun buildingNo(buildingNo: Long) = apply { this.buildingNo = buildingNo }
+        fun building(building: Building) = apply { this.building = building }
         fun date(date: Date) = apply { this.date = date }
         fun guaranteePrice(guaranteePrice: String) = apply { this.guaranteePrice = guaranteePrice }
         fun monthlyPrice(monthlyPrice: String) = apply { this.monthlyPrice = monthlyPrice }

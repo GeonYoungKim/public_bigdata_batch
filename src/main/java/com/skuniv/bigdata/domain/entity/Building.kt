@@ -20,13 +20,13 @@ data class Building(
         var buildingNum: String?,
         @Column(name = "construct_year")
         var constructYear: String?,
-        @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "building")
         @JsonIgnore
         var bargainDates: Set<BargainDate>?,
-        @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "building")
         @JsonIgnore
         var charterDates: Set<CharterDate>?,
-        @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "building")
         @JsonIgnore
         var rentDates: Set<RentDate>?
 ) : Serializable {
