@@ -11,11 +11,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
 
 @Slf4j
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@EnableJpaRepositories
 public class BigDataApplication implements ApplicationRunner {
     @Autowired
     ConfigurableApplicationContext configurableApplicationContext;
