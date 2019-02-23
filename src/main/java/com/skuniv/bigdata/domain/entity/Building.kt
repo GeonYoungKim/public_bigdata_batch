@@ -22,11 +22,11 @@ data class Building(
         var constructYear: String,
         @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
         @JsonIgnoreProperties("building")
-        val bargainDates: Set<BargainDate>,
+        val bargainDates: Set<BargainDate>? = null,
         @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
         @JsonIgnoreProperties("building")
-        val charterDates: Set<CharterDate>,
+        val charterDates: Set<CharterDate>? = null,
         @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
         @JsonIgnoreProperties("building")
-        val rentDates: Set<RentDate>
+        val rentDates: Set<RentDate>? = null
 ) : Serializable
