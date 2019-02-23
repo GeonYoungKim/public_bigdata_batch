@@ -17,6 +17,7 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
-@Component
+@Configuration
 @StepScope
 @RequiredArgsConstructor
 @Import({YamlDto.class, TemplateConfiguration.class})
