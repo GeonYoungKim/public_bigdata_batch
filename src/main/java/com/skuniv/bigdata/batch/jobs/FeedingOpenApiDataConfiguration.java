@@ -46,7 +46,7 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
     public Step apiCallPartitionStep()
             throws UnexpectedInputException, ParseException {
         return stepBuilderFactory.get("apiCallPartitionStep")
-                .partitioner("apiCallPartitionStep", openApiPartitioner)/*.partitionHandler(feedingApiDataPartitionHandler())*/
+                .partitioner("apiCallPartitionStep", openApiPartitioner)
                 .step(apiCallTrtStep())
                 .build();
     }
@@ -59,20 +59,4 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
                 .writer(openApiWriter)
                 .build();
     }
-
-//    @Bean
-//    public PartitionHandler feedingApiDataPartitionHandler() {
-//        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
-//        taskExecutorPartitionHandler.setGridSize(10);
-//        taskExecutorPartitionHandler.setTaskExecutor(feedingApiDataThreadPoolExecutor());
-//        taskExecutorPartitionHandler.setStep(apiCallTrtStep());
-//        return taskExecutorPartitionHandler;
-//    }
-//
-//    @Bean
-//    public ThreadPoolTaskExecutor feedingApiDataThreadPoolExecutor() {
-//        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-//        threadPoolTaskExecutor.setCorePoolSize(10);
-//        return threadPoolTaskExecutor;
-//    }
 }

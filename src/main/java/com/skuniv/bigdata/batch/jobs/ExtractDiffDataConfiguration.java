@@ -43,7 +43,7 @@ public class ExtractDiffDataConfiguration {
     public Step extractDiffDataPartitionStep()
             throws UnexpectedInputException, ParseException {
         return stepBuilderFactory.get("extractDiffDataPartitionStep")
-                .partitioner("slaveStep", openApiPartitioner).partitionHandler(extractDiffDataPartitionHandler())
+                .partitioner("slaveStep", openApiPartitioner)
                 .step(extractDiffDataTrtStep())
                 .build();
     }
@@ -53,21 +53,5 @@ public class ExtractDiffDataConfiguration {
         return stepBuilderFactory.get("extractDiffDataTrtStep")
                 .tasklet(extractDiffDataTasklet)
                 .build();
-    }
-
-    @Bean
-    public PartitionHandler extractDiffDataPartitionHandler() {
-        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
-        taskExecutorPartitionHandler.setGridSize(300);
-        taskExecutorPartitionHandler.setTaskExecutor(extractDiffDataThreadPoolExecutor());
-        taskExecutorPartitionHandler.setStep(extractDiffDataTrtStep());
-        return taskExecutorPartitionHandler;
-    }
-
-    @Bean
-    public ThreadPoolTaskExecutor extractDiffDataThreadPoolExecutor() {
-        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setCorePoolSize(300);
-        return threadPoolTaskExecutor;
     }
 }
