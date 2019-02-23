@@ -12,4 +12,4 @@ class CharterWithRentOpenApiDto(
         var body: CharterWithRentBodyDto? = null,
         @XmlElement(name = "header")
         var header: HeaderDto? = null
-):BuildingDealDto()
+) : BuildingDealDto()

@@ -13,4 +13,4 @@ class BargainOpenApiDto(
         var body: BargainBodyDto? = null,
         @XmlElement(name = "header")
         var header: HeaderDto? = null
-): BuildingDealDto()
+) : BuildingDealDto()

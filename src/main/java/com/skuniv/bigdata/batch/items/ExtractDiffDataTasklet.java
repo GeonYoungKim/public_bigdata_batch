@@ -123,14 +123,18 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 int groop = Integer.parseInt(bargainItemDto.getRegionCode().substring(2));
                 Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, bargainItemDto.getBuildingNum(), bargainItemDto.getFloor());
                 if (building == null) {
-                    building = new Building(null, city, groop, bargainItemDto.getDong(), bargainItemDto.getName(), bargainItemDto.getArea(), bargainItemDto.getFloor(), buildingType, bargainItemDto.getBuildingNum(), String.valueOf(bargainItemDto.getConstructYear()), null, null, null);
+//                    building = new Building(null, city, groop, bargainItemDto.getDong(), bargainItemDto.getName(), bargainItemDto.getArea(), bargainItemDto.getFloor(), buildingType, bargainItemDto.getBuildingNum(), String.valueOf(bargainItemDto.getConstructYear()), null, null, null);
+                    building = new Building.Builder().city(city).groop(groop).dong(bargainItemDto.getDong()).name(bargainItemDto.getName()).area(bargainItemDto.getArea()).floor(bargainItemDto.getFloor())
+                            .type(buildingType).buildingNum(bargainItemDto.getBuildingNum()).constructYear(String.valueOf(bargainItemDto.getConstructYear())).build();
                 }
                 String[] splitDays = bargainItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
                 int startDay = Integer.parseInt(splitDays[0]);
                 int endDay = Integer.parseInt(splitDays[1]);
                 for (int i = startDay; i <= endDay; i++) {
                     Date date = new GregorianCalendar(bargainItemDto.getYear(), bargainItemDto.getMonthly() - 1, i).getTime();
-                    BargainDate bargainDate = new BargainDate(null, building, date, bargainItemDto.getDealPrice().trim());
+                    BargainDate bargainDate = new BargainDate.Builder().building(building).date(date)
+                            .price(bargainItemDto.getDealPrice().trim())
+                            .build();
                     building.getBargainDates().add(bargainDate);
                 }
                 log.warn("insert building trade info => {}", building.toString());
@@ -145,7 +149,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             if (building == null) {
 //                building = new Building(city, groop, charterWithRentItemDto.getDong(), charterWithRentItemDto.getName(), charterWithRentItemDto.getArea(), charterWithRentItemDto.getFloor(), buildingType, charterWithRentItemDto.getBuildingNum(), String.valueOf(charterWithRentItemDto.getConstructYear()));
                 building = new Building.Builder().city(city).groop(groop).dong(charterWithRentItemDto.getDong())
-                        .name(charterWithRentItemDto.getName()).area(charterWithRentItemDto.getArea()).floor(charterWithRentItemDto.getFloor())
+                        .name(charterWithRentItemDto.getName()).area(charterWithRentItemDto.getArea()).floor(charterWithRentItemDto.getFloor()).type(buildingType)
                         .buildingNum(charterWithRentItemDto.getBuildingNum()).constructYear(String.valueOf(charterWithRentItemDto.getConstructYear())).build();
             }
             log.warn("building create => {}", building.toString());
@@ -158,7 +162,10 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 // 월세
                 for (int i = startDay; i <= endDay; i++) {
                     Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
-                    RentDate rentDate = new RentDate(null, building, date, charterWithRentItemDto.getGuaranteePrice().trim(), charterWithRentItemDto.getMonthlyPrice().trim());
+                    RentDate rentDate = new RentDate.Builder().building(building).date(date)
+                            .guaranteePrice(charterWithRentItemDto.getGuaranteePrice().trim())
+                            .monthlyPrice(charterWithRentItemDto.getMonthlyPrice().trim())
+                            .build();
                     log.warn("rentDate => {}", rentDate.toString());
                     building.getRentDates().add(rentDate);
                 }
@@ -170,7 +177,9 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             log.warn("전세!!!");
             for (int i = startDay; i <= endDay; i++) {
                 Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
-                CharterDate charterDate = new CharterDate(null, building, date, charterWithRentItemDto.getGuaranteePrice().trim());
+                CharterDate charterDate = new CharterDate.Builder().building(building).date(date)
+                        .price(charterWithRentItemDto.getGuaranteePrice().trim())
+                        .build();
                 log.warn("charterDate => {}", charterDate.toString());
                 building.getCharterDates().add(charterDate);
             }
