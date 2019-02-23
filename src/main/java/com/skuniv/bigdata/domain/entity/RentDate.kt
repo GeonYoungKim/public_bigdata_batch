@@ -8,7 +8,7 @@ import javax.persistence.*
 data class RentDate(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        val id: Long? =null,
+        val id: Long? = null,
 
         @ManyToOne(cascade = arrayOf(CascadeType.ALL))
         val building: Building? = null,

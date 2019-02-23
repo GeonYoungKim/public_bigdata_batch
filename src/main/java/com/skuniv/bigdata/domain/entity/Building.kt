@@ -1,7 +1,6 @@
 package com.skuniv.bigdata.domain.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import lombok.Builder
 import java.io.Serializable
 import javax.persistence.*
 
