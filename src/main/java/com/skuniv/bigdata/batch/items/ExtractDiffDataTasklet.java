@@ -129,7 +129,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 int endDay = Integer.parseInt(splitDays[1]);
                 for (int i = startDay; i <= endDay; i++) {
                     Date date = new GregorianCalendar(bargainItemDto.getYear(), bargainItemDto.getMonthly() - 1, i).getTime();
-                    BargainDate bargainDate = new BargainDate.Builder().buildingNo(building.getNo()).date(date)
+                    BargainDate bargainDate = new BargainDate.Builder().building(building).date(date)
                             .price(bargainItemDto.getDealPrice().trim())
                             .build();
                     building.getBargainDates().add(bargainDate);
@@ -162,7 +162,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 // 월세
                 for (int i = startDay; i <= endDay; i++) {
                     Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
-                    RentDate rentDate = new RentDate.Builder().buildingNo(building.getNo()).date(date)
+                    RentDate rentDate = new RentDate.Builder().building(building).date(date)
                             .guaranteePrice(charterWithRentItemDto.getGuaranteePrice().trim())
                             .monthlyPrice(charterWithRentItemDto.getMonthlyPrice().trim())
                             .build();
@@ -178,7 +178,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             log.warn("building.getCharterDates() => {}", building.getCharterDates());
             for (int i = startDay; i <= endDay; i++) {
                 Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
-                CharterDate charterDate = new CharterDate.Builder().buildingNo(building.getNo()).date(date)
+                CharterDate charterDate = new CharterDate.Builder().building(building).date(date)
                         .price(charterWithRentItemDto.getGuaranteePrice().trim())
                         .build();
                 log.warn("charterDate => {}", charterDate.toString());
