@@ -1,9 +1,8 @@
 package com.skuniv.bigdata.domain.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.io.Serializable
 import javax.persistence.*
-import javax.persistence.criteria.CriteriaBuilder
 
 @Entity
 data class Building(
@@ -22,14 +21,14 @@ data class Building(
         @Column(name = "construct_year")
         var constructYear: String?,
         @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
-        @JsonIgnoreProperties("building")
-        val bargainDates: Set<BargainDate>? = null,
+        @JsonIgnore
+        var bargainDates: Set<BargainDate>?,
         @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
-        @JsonIgnoreProperties("building")
-        val charterDates: Set<CharterDate>? = null,
+        @JsonIgnore
+        var charterDates: Set<CharterDate>?,
         @OneToMany(mappedBy = "building", fetch = FetchType.EAGER)
-        @JsonIgnoreProperties("building")
-        val rentDates: Set<RentDate>? = null
+        @JsonIgnore
+        var rentDates: Set<RentDate>?
 ) : Serializable {
     private constructor(builder: Builder) : this(builder.no, builder.city, builder.groop, builder.dong, builder.name, builder.area, builder.floor, builder.type, builder.buildingNum, builder.constructYear, builder.bargainDates, builder.charterDates, builder.rentDates)
 

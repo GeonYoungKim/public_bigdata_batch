@@ -8,14 +8,14 @@ import javax.persistence.*
 data class CharterDate(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        val id: Long? = null,
+        var id: Long? = null,
 
         @ManyToOne(cascade = arrayOf(CascadeType.ALL))
-        val building: Building? = null,
+        var building: Building? = null,
 
         @Temporal(TemporalType.DATE)
-        val date: Date? = null,
-        val price: String? = null
+        var date: Date? = null,
+        var price: String? = null
 ) : Serializable {
     private constructor(builder: Builder) : this(builder.id, builder.building, builder.date, builder.price)
 
