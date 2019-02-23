@@ -9,7 +9,7 @@ data class BargainDate(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-
+        @Id
         var buildingNo: Long? = null,
 
         @Temporal(TemporalType.DATE)
