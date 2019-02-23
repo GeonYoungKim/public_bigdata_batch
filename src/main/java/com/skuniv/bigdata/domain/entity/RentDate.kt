@@ -10,7 +10,6 @@ data class RentDate(
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
 
-        @ManyToOne(cascade = arrayOf(CascadeType.ALL))
         var buildingNo: Long? = null,
 
         @Temporal(TemporalType.DATE)
