@@ -41,16 +41,16 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
         bw.newLine();
     }
 
-    private void divisionItem(BuildingDealDto item) throws IOException {
+    private void divisionItem(BuildingDealDto item, BufferedWriter bw) throws IOException {
         if (StringUtils.equals(item.getDealType(), OpenApiConstants.BARGAIN_NUM)) {
             BargainOpenApiDto bargainOpenApiDto = (BargainOpenApiDto) item;
             for (BargainItemDto bargainItemDto : bargainOpenApiDto.getBody().getItem()) {
-                write(bufferedWriter, gson.toJson(bargainItemDto));
+                write(bw, gson.toJson(bargainItemDto));
             }
         } else {
             CharterWithRentOpenApiDto charterWithRentOpenApiDto = (CharterWithRentOpenApiDto) item;
             for (CharterWithRentItemDto charterWithRentItemDto : charterWithRentOpenApiDto.getBody().getItem()) {
-                write(bufferedWriter, gson.toJson(charterWithRentItemDto));
+                write(bw, gson.toJson(charterWithRentItemDto));
             }
         }
     }
@@ -59,7 +59,7 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
     public void write(List<? extends BuildingDealDto> items) throws Exception {
         for (BuildingDealDto item : items) {
             // 파일 쓰기
-            divisionItem(item);
+            divisionItem(item, bufferedWriter);
         }
     }
 
@@ -90,7 +90,11 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        System.exit(0);
+        try {
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
