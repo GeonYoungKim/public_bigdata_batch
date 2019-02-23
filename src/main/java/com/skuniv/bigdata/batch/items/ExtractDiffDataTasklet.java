@@ -102,13 +102,13 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         // old 파일 삭제.
-        StringBuilder sb = new StringBuilder();
-        sb.append("rm ").append(yamlDto.getFilePath()).append(OpenApiConstants.FILE_DELEMETER).append(fileName).append(OpenApiConstants.OLD);
-        try {
-            Runtime.getRuntime().exec(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("rm ").append(yamlDto.getFilePath()).append(OpenApiConstants.FILE_DELEMETER).append(fileName).append(OpenApiConstants.OLD);
+//        try {
+//            Runtime.getRuntime().exec(sb.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
 
@@ -142,17 +142,22 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             int city = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(0, 2));
             int groop = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(2));
             Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, charterWithRentItemDto.getBuildingNum(), charterWithRentItemDto.getFloor());
+            log.warn("select building => {}", building.toString());
             if (building == null) {
                 building = new Building(null, city, groop, charterWithRentItemDto.getDong(), charterWithRentItemDto.getName(), charterWithRentItemDto.getArea(), charterWithRentItemDto.getFloor(), buildingType, charterWithRentItemDto.getBuildingNum(), String.valueOf(charterWithRentItemDto.getConstructYear()), null, null, null);
             }
+            log.warn("building create => {}", building.toString());
             String[] splitDays = charterWithRentItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
             int startDay = Integer.parseInt(splitDays[0]);
             int endDay = Integer.parseInt(splitDays[1]);
+            log.warn("start day => {}, end day => {}", startDay, endDay);
             if (Integer.parseInt(charterWithRentItemDto.getMonthlyPrice().trim()) != 0) {
+                log.warn("월세!!!");
                 // 월세
                 for (int i = startDay; i <= endDay; i++) {
                     Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
                     RentDate rentDate = new RentDate(null, building, date, charterWithRentItemDto.getGuaranteePrice().trim(), charterWithRentItemDto.getMonthlyPrice().trim());
+                    log.warn("rentDate => {}", rentDate.toString());
                     building.getRentDates().add(rentDate);
                 }
                 log.warn("insert building trade info => {}", building.toString());
@@ -160,9 +165,11 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 return;
             }
             // 전세
+            log.warn("전세!!!");
             for (int i = startDay; i <= endDay; i++) {
                 Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
                 CharterDate charterDate = new CharterDate(null, building, date, charterWithRentItemDto.getGuaranteePrice().trim());
+                log.warn("charterDate => {}", charterDate.toString());
                 building.getCharterDates().add(charterDate);
             }
             log.warn("insert building trade info => {}", building.toString());
