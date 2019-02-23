@@ -37,7 +37,7 @@ public class BigDataApplication implements ApplicationRunner {
         log.warn("ctx => " + configurableApplicationContext);
         Job executeJob = (Job) configurableApplicationContext.getBean(job.get(0));
         log.warn("job1 => {}", executeJob.getName());
-        JobParametersBuilder builder = new JobParametersBuilder();
+        JobParametersBuilder builder = new JobParametersBuilder().addLong("time", System.currentTimeMillis());
         jobLauncher.run(executeJob, builder.toJobParameters());
     }
 }
