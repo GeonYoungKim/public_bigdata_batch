@@ -6,10 +6,6 @@ import com.skuniv.bigdata.domain.dto.open_api.BargainBodyDto;
 import com.skuniv.bigdata.domain.dto.open_api.BargainItemDto;
 import com.skuniv.bigdata.domain.dto.open_api.CharterWithRentBodyDto;
 import com.skuniv.bigdata.domain.dto.open_api.CharterWithRentItemDto;
-import com.skuniv.bigdata.domain.entity.BargainDate;
-import com.skuniv.bigdata.domain.entity.Building;
-import com.skuniv.bigdata.domain.entity.CharterDate;
-import com.skuniv.bigdata.domain.entity.RentDate;
 import com.skuniv.bigdata.repository.BuildingRepository;
 import com.skuniv.bigdata.util.OpenApiConstants;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +20,13 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +34,7 @@ import java.util.List;
 @StepScope
 @Import(YamlDto.class)
 @RequiredArgsConstructor
-public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener {
+public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, InitializingBean {
     private static final Gson gson = new Gson();
     private final YamlDto yamlDto;
     private final BuildingRepository buildingRepository;
@@ -174,5 +169,10 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener {
         log.warn("insert DataList => {}", newDataList);
 //        batchInsertData(newDataList);
         return RepeatStatus.FINISHED;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.warn("init diff tasklet bean => {}", this.getClass().getName());
     }
 }
