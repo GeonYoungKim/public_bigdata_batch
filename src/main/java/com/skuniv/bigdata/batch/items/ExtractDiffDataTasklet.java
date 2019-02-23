@@ -135,7 +135,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                     building.getBargainDates().add(bargainDate);
                 }
                 log.warn("insert building trade info => {}", building.toString());
-                buildingRepository.save(building);
+                buildingRepository.saveAndFlush(building);
                 return;
             }
             // 전월세의 경우
@@ -171,23 +171,22 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                     building.getRentDates().add(rentDate);
                 }
                 log.warn("insert building trade info => {}", building.toString());
-                buildingRepository.save(building);
+                buildingRepository.saveAndFlush(building);
                 return;
             }
             // 전세
             log.warn("전세!!!");
+            log.warn("building.getCharterDates() => {}", building.getCharterDates());
             for (int i = startDay; i <= endDay; i++) {
                 Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
                 CharterDate charterDate = new CharterDate.Builder().building(building).date(date)
                         .price(charterWithRentItemDto.getGuaranteePrice().trim())
                         .build();
                 log.warn("charterDate => {}", charterDate.toString());
-                building.getCharterDates().add(charterDate);
             }
             log.warn("insert building trade info => {}", building.toString());
-            buildingRepository.save(building);
+            buildingRepository.saveAndFlush(building);
         });
-        buildingRepository.flush();
     }
 
     @Override
