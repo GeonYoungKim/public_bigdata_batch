@@ -23,7 +23,6 @@ import java.net.MalformedURLException;
 @Configuration
 @RequiredArgsConstructor
 @EnableBatchProcessing
-@EnableAutoConfiguration
 @Import({OpenApiPartitioner.class, ExtractDiffDataTasklet.class})
 public class ExtractDiffDataConfiguration {
 

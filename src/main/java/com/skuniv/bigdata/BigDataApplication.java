@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import java.util.List;
 
 @Slf4j
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 @EnableJpaRepositories(basePackages = {"com.skuniv.bigdata.repository"})
 public class BigDataApplication implements ApplicationRunner {
     @Autowired
