@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.skuniv.bigdata.domain.dto.YamlDto;
 import com.skuniv.bigdata.domain.dto.open_api.BargainItemDto;
 import com.skuniv.bigdata.domain.dto.open_api.CharterWithRentItemDto;
+import com.skuniv.bigdata.domain.dto.open_api.GoogleLocationDto;
 import com.skuniv.bigdata.domain.entity.BargainDate;
 import com.skuniv.bigdata.domain.entity.Building;
 import com.skuniv.bigdata.domain.entity.CharterDate;
 import com.skuniv.bigdata.domain.entity.RentDate;
 import com.skuniv.bigdata.repository.BuildingRepository;
+import com.skuniv.bigdata.service.GoogleLocationApiService;
 import com.skuniv.bigdata.util.OpenApiConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,21 +26,22 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.util.*;
 
 @Slf4j
-@Component
+@Service
 @StepScope
-@Import(YamlDto.class)
+@Import({YamlDto.class, GoogleLocationApiService.class})
 @RequiredArgsConstructor
 public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, InitializingBean {
     private static final Gson gson = new Gson();
     private final YamlDto yamlDto;
     private final BuildingRepository buildingRepository;
+    private final GoogleLocationApiService googleLocationApiService;
 
     private String fileName;
     private String dealType;
@@ -99,13 +102,13 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         // old 파일 삭제.
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("rm ").append(yamlDto.getFilePath()).append(OpenApiConstants.FILE_DELEMETER).append(fileName).append(OpenApiConstants.OLD);
-//        try {
-//            Runtime.getRuntime().exec(sb.toString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("rm ").append(yamlDto.getFilePath()).append(OpenApiConstants.FILE_DELEMETER).append(fileName).append(OpenApiConstants.OLD);
+        try {
+            Runtime.getRuntime().exec(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -120,9 +123,14 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 int groop = Integer.parseInt(bargainItemDto.getRegionCode().substring(2));
                 Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, bargainItemDto.getBuildingNum(), bargainItemDto.getFloor());
                 if (building == null) {
-//                    building = new Building(null, city, groop, bargainItemDto.getDong(), bargainItemDto.getName(), bargainItemDto.getArea(), bargainItemDto.getFloor(), buildingType, bargainItemDto.getBuildingNum(), String.valueOf(bargainItemDto.getConstructYear()), null, null, null);
                     building = new Building.Builder().city(city).groop(groop).dong(bargainItemDto.getDong()).name(bargainItemDto.getName()).area(bargainItemDto.getArea()).floor(bargainItemDto.getFloor())
                             .type(buildingType).buildingNum(bargainItemDto.getBuildingNum()).constructYear(String.valueOf(bargainItemDto.getConstructYear())).build();
+                    String address = bargainItemDto.getDong() + bargainItemDto.getName();
+                    GoogleLocationDto googleLocationDto = googleLocationApiService.googleLocationApiCall(address.replaceAll(" ",""));
+                    if (googleLocationDto != null){
+                        building.setLatitude(googleLocationDto.getLatitude());
+                        building.setLongitude(googleLocationDto.getLongitude());
+                    }
                 }
                 String[] splitDays = bargainItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
                 int startDay = Integer.parseInt(splitDays[0]);
@@ -135,7 +143,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                     building.getBargainDates().add(bargainDate);
                 }
                 log.warn("insert building trade info => {}", building.toString());
-                buildingRepository.saveAndFlush(building);
+                buildingRepository.save(building);
                 return;
             }
             // 전월세의 경우
@@ -151,6 +159,12 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                         .charterDates(new HashSet<CharterDate>())
                         .rentDates(new HashSet<RentDate>())
                         .build();
+                String address = charterWithRentItemDto.getDong() + charterWithRentItemDto.getName();
+                GoogleLocationDto googleLocationDto = googleLocationApiService.googleLocationApiCall(address.replaceAll(" ",""));
+                if (googleLocationDto != null){
+                    building.setLatitude(googleLocationDto.getLatitude());
+                    building.setLongitude(googleLocationDto.getLongitude());
+                }
             }
             log.warn("building create => {}", building.toString());
             String[] splitDays = charterWithRentItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
@@ -170,7 +184,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                     building.getRentDates().add(rentDate);
                 }
                 log.warn("insert building trade info => {}", building.toString());
-                buildingRepository.saveAndFlush(building);
+                buildingRepository.save(building);
                 return;
             }
             // 전세
@@ -185,8 +199,9 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 building.getCharterDates().add(charterDate);
             }
             log.warn("insert building trade info => {}", building.toString());
-            buildingRepository.saveAndFlush(building);
+            buildingRepository.save(building);
         });
+        buildingRepository.flush();
     }
 
     @Override

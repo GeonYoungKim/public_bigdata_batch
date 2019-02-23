@@ -16,21 +16,23 @@ data class Building(
         var area: Double?,
         var floor: Int?,
         var type: Int?,
+        var latitude: String?,
+        var longitude: String?,
         @Column(name = "building_num")
         var buildingNum: String?,
         @Column(name = "construct_year")
         var constructYear: String?,
-        @OneToMany(mappedBy = "building")
+        @OneToMany(mappedBy = "building", cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
         @JsonIgnore
-        var bargainDates: Set<BargainDate>?,
-        @OneToMany(mappedBy = "building")
+        var bargainDates: Set<BargainDate>? = HashSet<BargainDate>(),
+        @OneToMany(mappedBy = "building", cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
         @JsonIgnore
-        var charterDates: Set<CharterDate>?,
-        @OneToMany(mappedBy = "building")
+        var charterDates: Set<CharterDate>? = HashSet<CharterDate>(),
+        @OneToMany(mappedBy = "building", cascade = arrayOf(CascadeType.ALL), orphanRemoval = true)
         @JsonIgnore
-        var rentDates: Set<RentDate>?
+        var rentDates: Set<RentDate>? = HashSet<RentDate>()
 ) : Serializable {
-    private constructor(builder: Builder) : this(builder.no, builder.city, builder.groop, builder.dong, builder.name, builder.area, builder.floor, builder.type, builder.buildingNum, builder.constructYear, builder.bargainDates, builder.charterDates, builder.rentDates)
+    private constructor(builder: Builder) : this(builder.no, builder.city, builder.groop, builder.dong, builder.name, builder.area, builder.floor, builder.type, builder.latitude, builder.longitude, builder.buildingNum, builder.constructYear, builder.bargainDates, builder.charterDates, builder.rentDates)
 
     class Builder {
         var no: Long? = null
@@ -49,6 +51,10 @@ data class Building(
             private set
         var type: Int? = null
             private set
+        var latitude: String? = null
+            private set
+        var longitude: String? = null
+            private set
         var buildingNum: String? = null
             private set
         var constructYear: String? = null
@@ -66,6 +72,8 @@ data class Building(
         fun name(name: String) = apply { this.name = name }
         fun area(area: Double) = apply { this.area = area }
         fun type(type: Int) = apply { this.type = type }
+        fun latitude(latitude: String) = apply { this.latitude = latitude }
+        fun longitude(longitude: String) = apply { this.longitude = longitude }
         fun floor(floor: Int) = apply { this.floor = floor }
         fun buildingNum(buildingNum: String) = apply { this.buildingNum = buildingNum }
         fun constructYear(constructYear: String) = apply { this.constructYear = constructYear }

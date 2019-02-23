@@ -1,10 +1,12 @@
 package com.skuniv.bigdata.domain.dto.open_api;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.xml.bind.annotation.*;
 
 @Data
+@Builder
 @XmlRootElement(name = "item")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CharterWithRentItemDto {

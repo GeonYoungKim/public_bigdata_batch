@@ -19,4 +19,7 @@ public class YamlDto {
 
     @Value("${serviceKey}")
     private String serviceKey;
+
+    @Value("${googleKey}")
+    private String googleKey;
 }

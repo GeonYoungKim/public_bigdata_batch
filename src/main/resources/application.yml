@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -23,4 +23,5 @@ logging:
       hibernate: debug
 filePath: /var/lib/jenkins/data
 serviceKey: linI95AONlAWNyEPFVl3M7TiMaDgQATytzfLTFGCFejO61v06FFQuw8XG9OFo9TUn0AlnGcg2N\%2B8vE\%2FJ2JVhGw\%3D\%3D
+googleKey: AIzaSyCxULkNzEk4-VQDsQFPE1SGvojF104rFFs
 

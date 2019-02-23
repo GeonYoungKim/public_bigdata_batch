@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class BigDataApplication implements ApplicationRunner {
     ConfigurableApplicationContext configurableApplicationContext;
     @Autowired
     private JobLauncher jobLauncher;
+
 
     public static void main(String[] args) {
         SpringApplication.run(BigDataApplication.class, args);

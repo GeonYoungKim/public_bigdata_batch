@@ -5,12 +5,11 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-data class CharterDate(
+class CharterDate(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
-        @JoinColumn(name = "buildingNo")
+        @ManyToOne(cascade = arrayOf(CascadeType.ALL))
         var building: Building? = null,
 
         @Temporal(TemporalType.DATE)
