@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -22,7 +23,7 @@ import java.net.MalformedURLException;
 @Configuration
 @RequiredArgsConstructor
 @EnableBatchProcessing
-@EnableJpaRepositories(basePackages = {"com.skuniv.bigdata.repository"})
+@EnableAutoConfiguration
 @Import({OpenApiPartitioner.class, ExtractDiffDataTasklet.class})
 public class ExtractDiffDataConfiguration {
 

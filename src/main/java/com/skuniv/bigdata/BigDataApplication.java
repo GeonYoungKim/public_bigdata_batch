@@ -8,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
 
 @Slf4j
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@EnableJpaRepositories(basePackages = {"com.skuniv.bigdata.repository"})
 public class BigDataApplication implements ApplicationRunner {
     @Autowired
     ConfigurableApplicationContext configurableApplicationContext;
