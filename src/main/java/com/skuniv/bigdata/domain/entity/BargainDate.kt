@@ -11,18 +11,18 @@ data class BargainDate(
         var id: Long? = null,
 
         @ManyToOne(cascade = arrayOf(CascadeType.ALL))
-        var building: Building? = null,
+        var buildingNo: Long? = null,
 
         @Temporal(TemporalType.DATE)
         var date: Date? = null,
         var price: String? = null
 ) : Serializable {
-    private constructor(builder: Builder) : this(builder.id, builder.building, builder.date, builder.price)
+    private constructor(builder: Builder) : this(builder.id, builder.buildingNo, builder.date, builder.price)
 
     class Builder {
         var id: Long? = null
             private set
-        var building: Building? = null
+        var buildingNo: Long? = null
             private set
         var date: Date? = null
             private set
@@ -30,7 +30,7 @@ data class BargainDate(
             private set
 
     fun id(id: Long) = apply { this.id = id }
-    fun building(building: Building) = apply { this.building = building }
+    fun buildingNo(buildingNo: Long) = apply { this.buildingNo = buildingNo }
     fun date(date: Date) = apply { this.date = date }
     fun price(price: String) = apply { this.price = price }
     fun build() = BargainDate(this)
