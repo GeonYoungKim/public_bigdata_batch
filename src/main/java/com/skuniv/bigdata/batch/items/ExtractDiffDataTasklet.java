@@ -142,7 +142,6 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             int city = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(0, 2));
             int groop = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(2));
             Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, charterWithRentItemDto.getBuildingNum(), charterWithRentItemDto.getFloor());
-            log.warn("select building => {}", building.toString());
             if (building == null) {
                 building = new Building(null, city, groop, charterWithRentItemDto.getDong(), charterWithRentItemDto.getName(), charterWithRentItemDto.getArea(), charterWithRentItemDto.getFloor(), buildingType, charterWithRentItemDto.getBuildingNum(), String.valueOf(charterWithRentItemDto.getConstructYear()), null, null, null);
             }
