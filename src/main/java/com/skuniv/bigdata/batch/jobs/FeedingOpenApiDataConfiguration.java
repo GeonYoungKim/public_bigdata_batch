@@ -46,7 +46,7 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
     public Step apiCallPartitionStep()
             throws UnexpectedInputException, ParseException {
         return stepBuilderFactory.get("apiCallPartitionStep")
-                .partitioner("apiCallPartitionStep", openApiPartitioner).partitionHandler(feedingApiDataPartitionHandler())
+                .partitioner("apiCallPartitionStep", openApiPartitioner)/*.partitionHandler(feedingApiDataPartitionHandler())*/
                 .step(apiCallTrtStep())
                 .build();
     }
@@ -60,19 +60,19 @@ public class FeedingOpenApiDataConfiguration extends DefaultBatchConfigurer {
                 .build();
     }
 
-    @Bean
-    public PartitionHandler feedingApiDataPartitionHandler() {
-        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
-        taskExecutorPartitionHandler.setGridSize(300);
-        taskExecutorPartitionHandler.setTaskExecutor(feedingApiDataThreadPoolExecutor());
-        taskExecutorPartitionHandler.setStep(apiCallTrtStep());
-        return taskExecutorPartitionHandler;
-    }
-
-    @Bean
-    public ThreadPoolTaskExecutor feedingApiDataThreadPoolExecutor() {
-        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setCorePoolSize(300);
-        return threadPoolTaskExecutor;
-    }
+//    @Bean
+//    public PartitionHandler feedingApiDataPartitionHandler() {
+//        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
+//        taskExecutorPartitionHandler.setGridSize(10);
+//        taskExecutorPartitionHandler.setTaskExecutor(feedingApiDataThreadPoolExecutor());
+//        taskExecutorPartitionHandler.setStep(apiCallTrtStep());
+//        return taskExecutorPartitionHandler;
+//    }
+//
+//    @Bean
+//    public ThreadPoolTaskExecutor feedingApiDataThreadPoolExecutor() {
+//        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+//        threadPoolTaskExecutor.setCorePoolSize(10);
+//        return threadPoolTaskExecutor;
+//    }
 }

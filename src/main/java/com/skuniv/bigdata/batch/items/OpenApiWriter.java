@@ -17,6 +17,7 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
@@ -96,6 +97,6 @@ public class OpenApiWriter implements ItemWriter<BuildingDealDto>, StepExecution
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return ExitStatus.COMPLETED;
     }
 }
