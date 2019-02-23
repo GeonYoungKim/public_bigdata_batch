@@ -49,12 +49,15 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
         String line = null;
         if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
             while ((line = br.readLine()) != null) {
-                list.add(gson.fromJson(line, BargainBodyDto.class));
+                list.add(gson.fromJson(line.trim(), BargainBodyDto.class));
             }
             return;
         }
         while ((line = br.readLine()) != null) {
-            list.add(gson.fromJson(line, CharterWithRentBodyDto.class));
+            log.warn("line => {}", line);
+            CharterWithRentBodyDto charterWithRentBodyDto = gson.fromJson(line.trim(), CharterWithRentBodyDto.class);
+            log.warn("charterWithRentBodyDto => {}", charterWithRentBodyDto.toString());
+            list.add(gson.fromJson(line.trim(), CharterWithRentBodyDto.class));
         }
     }
 
