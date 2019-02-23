@@ -29,7 +29,6 @@ public class ExtractDiffDataConfiguration {
 
     @Bean
     public Job extractDiffDataJob() {
-        log.warn("job starting !!!");
         return jobBuilderFactory.get("extractDiffDataJob")
                 .start(extractDiffDataPartitionStep())
                 .build();
@@ -38,19 +37,14 @@ public class ExtractDiffDataConfiguration {
     @Bean
     public Step extractDiffDataPartitionStep()
             throws UnexpectedInputException, ParseException {
-        log.warn("partitioner step starting !!!");
         return stepBuilderFactory.get("extractDiffDataPartitionStep")
-                .partitioner("slaveStep", openApiPartitioner)
+                .partitioner("extractDiffDataPartitionStep", openApiPartitioner)
                 .step(extractDiffDataTrtStep())
                 .build();
     }
 
     @Bean
     public Step extractDiffDataTrtStep() {
-        log.warn("tasklet step starting!!!");
-        for (int i = 0; i < 100; i++) {
-            log.warn("i => {}", i);
-        }
         return stepBuilderFactory.get("extractDiffDataTrtStep")
                 .tasklet(extractDiffDataTasklet)
                 .build();
