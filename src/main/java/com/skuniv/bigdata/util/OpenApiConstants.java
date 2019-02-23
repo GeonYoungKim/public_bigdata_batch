@@ -23,7 +23,7 @@ public final class OpenApiConstants {
     public static final String BUILDING_TYPE = "buildingType";
     public static final String DEAL_TYPE = "dealType";
     public static final String SERVICE_KEY_PARAM = "&serviceKey=";
-
+    public static final String DELETEMETER_DATE = "~";
 
     @Getter
     @AllArgsConstructor
