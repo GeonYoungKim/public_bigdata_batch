@@ -36,7 +36,6 @@ public final class OpenApiConstants {
         MUTILGENERATION_CHARTER_RENT("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.HOUSING_NUM, OpenApiConstants.CHARTER_RENT_NUM),
         SOLE_BARGAIN("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcSHTrade?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.HOUSING_NUM, OpenApiConstants.BARGAIN_NUM),
         SOLE_CHARTER_RENT("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcSHRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.HOUSING_NUM, OpenApiConstants.CHARTER_RENT_NUM);
-        ;
 
         private String url;
         private String buildingType;
