@@ -143,7 +143,10 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             int groop = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(2));
             Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, charterWithRentItemDto.getBuildingNum(), charterWithRentItemDto.getFloor());
             if (building == null) {
-                building = new Building(city, groop, charterWithRentItemDto.getDong(), charterWithRentItemDto.getName(), charterWithRentItemDto.getArea(), charterWithRentItemDto.getFloor(), buildingType, charterWithRentItemDto.getBuildingNum(), String.valueOf(charterWithRentItemDto.getConstructYear()));
+//                building = new Building(city, groop, charterWithRentItemDto.getDong(), charterWithRentItemDto.getName(), charterWithRentItemDto.getArea(), charterWithRentItemDto.getFloor(), buildingType, charterWithRentItemDto.getBuildingNum(), String.valueOf(charterWithRentItemDto.getConstructYear()));
+                building = new Building.Builder().city(city).groop(groop).dong(charterWithRentItemDto.getDong())
+                        .name(charterWithRentItemDto.getName()).area(charterWithRentItemDto.getArea()).floor(charterWithRentItemDto.getFloor())
+                        .buildingNum(charterWithRentItemDto.getBuildingNum()).constructYear(String.valueOf(charterWithRentItemDto.getConstructYear())).build();
             }
             log.warn("building create => {}", building.toString());
             String[] splitDays = charterWithRentItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
