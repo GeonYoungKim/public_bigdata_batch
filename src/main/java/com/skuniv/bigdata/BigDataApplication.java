@@ -17,7 +17,6 @@ import java.util.List;
 
 @Slf4j
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@EnableJpaRepositories
 public class BigDataApplication implements ApplicationRunner {
     @Autowired
     ConfigurableApplicationContext configurableApplicationContext;
