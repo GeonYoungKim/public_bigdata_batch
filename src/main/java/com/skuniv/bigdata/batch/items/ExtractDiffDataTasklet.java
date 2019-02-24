@@ -126,7 +126,11 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, bargainItemDto.getBuildingNum(), bargainItemDto.getFloor());
                 if (building == null) {
                     building = new Building.Builder().city(city).groop(groop).dong(bargainItemDto.getDong()).name(bargainItemDto.getName()).area(bargainItemDto.getArea()).floor(bargainItemDto.getFloor())
-                            .type(buildingType).buildingNum(bargainItemDto.getBuildingNum()).constructYear(String.valueOf(bargainItemDto.getConstructYear())).build();
+                            .type(buildingType).buildingNum(bargainItemDto.getBuildingNum()).constructYear(String.valueOf(bargainItemDto.getConstructYear()))
+                            .bargainDates(new HashSet<BargainDate>())
+                            .charterDates(new HashSet<CharterDate>())
+                            .rentDates(new HashSet<RentDate>())
+                            .build();
                     String address = bargainItemDto.getDong() + bargainItemDto.getName();
                     GoogleLocationDto googleLocationDto = googleLocationApiService.googleLocationApiCall(address.replaceAll(" ",""));
                     if (googleLocationDto != null){
@@ -148,60 +152,61 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 buildingRepository.save(building);
                 return;
             }
-            // 전월세의 경우
-            CharterWithRentItemDto charterWithRentItemDto = (CharterWithRentItemDto) item;
-            int city = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(0, 2));
-            int groop = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(2));
-            Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, charterWithRentItemDto.getBuildingNum(), charterWithRentItemDto.getFloor());
-            if (building == null) {
-                building = new Building.Builder().city(city).groop(groop).dong(charterWithRentItemDto.getDong())
-                        .name(charterWithRentItemDto.getName()).area(charterWithRentItemDto.getArea()).floor(charterWithRentItemDto.getFloor()).type(buildingType)
-                        .buildingNum(charterWithRentItemDto.getBuildingNum()).constructYear(String.valueOf(charterWithRentItemDto.getConstructYear()))
-                        .bargainDates(new HashSet<BargainDate>())
-                        .charterDates(new HashSet<CharterDate>())
-                        .rentDates(new HashSet<RentDate>())
-                        .build();
-                String address = charterWithRentItemDto.getDong() + charterWithRentItemDto.getName();
-                GoogleLocationDto googleLocationDto = googleLocationApiService.googleLocationApiCall(address.replaceAll(" ",""));
-                if (googleLocationDto != null){
-                    building.setLatitude(googleLocationDto.getLatitude());
-                    building.setLongitude(googleLocationDto.getLongitude());
-                }
-            }
-            log.warn("building create => {}", building.toString());
-            String[] splitDays = charterWithRentItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
-            int startDay = Integer.parseInt(splitDays[0]);
-            int endDay = Integer.parseInt(splitDays[1]);
-            log.warn("start day => {}, end day => {}", startDay, endDay);
-            if (Integer.parseInt(charterWithRentItemDto.getMonthlyPrice().trim()) != 0) {
-                log.warn("월세!!!");
-                // 월세
-                for (int i = startDay; i <= endDay; i++) {
-                    Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
-                    RentDate rentDate = new RentDate.Builder().building(building).date(date)
-                            .guaranteePrice(charterWithRentItemDto.getGuaranteePrice().trim())
-                            .monthlyPrice(charterWithRentItemDto.getMonthlyPrice().trim())
-                            .build();
-                    log.warn("rentDate => {}", rentDate.toString());
-                    building.getRentDates().add(rentDate);
-                }
-                log.warn("insert building trade info => {}", building.toString());
-                buildingRepository.save(building);
-                return;
-            }
-            // 전세
-            log.warn("전세!!!");
-            log.warn("building.getCharterDates() => {}", building.getCharterDates());
-            for (int i = startDay; i <= endDay; i++) {
-                Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
-                CharterDate charterDate = new CharterDate.Builder().building(building).date(date)
-                        .price(charterWithRentItemDto.getGuaranteePrice().trim())
-                        .build();
-                log.warn("charterDate => {}", charterDate.toString());
-                building.getCharterDates().add(charterDate);
-            }
-            log.warn("insert building trade info => {}", building.toString());
-            buildingRepository.save(building);
+
+//            // 전월세의 경우
+//            CharterWithRentItemDto charterWithRentItemDto = (CharterWithRentItemDto) item;
+//            int city = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(0, 2));
+//            int groop = Integer.parseInt(charterWithRentItemDto.getRegionCode().substring(2));
+//            Building building = buildingRepository.findByCityAndGroopAndBuildingNumAndFloor(city, groop, charterWithRentItemDto.getBuildingNum(), charterWithRentItemDto.getFloor());
+//            if (building == null) {
+//                building = new Building.Builder().city(city).groop(groop).dong(charterWithRentItemDto.getDong())
+//                        .name(charterWithRentItemDto.getName()).area(charterWithRentItemDto.getArea()).floor(charterWithRentItemDto.getFloor()).type(buildingType)
+//                        .buildingNum(charterWithRentItemDto.getBuildingNum()).constructYear(String.valueOf(charterWithRentItemDto.getConstructYear()))
+//                        .bargainDates(new HashSet<BargainDate>())
+//                        .charterDates(new HashSet<CharterDate>())
+//                        .rentDates(new HashSet<RentDate>())
+//                        .build();
+//                String address = charterWithRentItemDto.getDong() + charterWithRentItemDto.getName();
+//                GoogleLocationDto googleLocationDto = googleLocationApiService.googleLocationApiCall(address.replaceAll(" ",""));
+//                if (googleLocationDto != null){
+//                    building.setLatitude(googleLocationDto.getLatitude());
+//                    building.setLongitude(googleLocationDto.getLongitude());
+//                }
+//            }
+//            log.warn("building create => {}", building.toString());
+//            String[] splitDays = charterWithRentItemDto.getDays().split(OpenApiConstants.DELETEMETER_DATE);
+//            int startDay = Integer.parseInt(splitDays[0]);
+//            int endDay = Integer.parseInt(splitDays[1]);
+//            log.warn("start day => {}, end day => {}", startDay, endDay);
+//            if (Integer.parseInt(charterWithRentItemDto.getMonthlyPrice().trim()) != 0) {
+//                log.warn("월세!!!");
+//                // 월세
+//                for (int i = startDay; i <= endDay; i++) {
+//                    Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
+//                    RentDate rentDate = new RentDate.Builder().building(building).date(date)
+//                            .guaranteePrice(charterWithRentItemDto.getGuaranteePrice().trim())
+//                            .monthlyPrice(charterWithRentItemDto.getMonthlyPrice().trim())
+//                            .build();
+//                    log.warn("rentDate => {}", rentDate.toString());
+//                    building.getRentDates().add(rentDate);
+//                }
+//                log.warn("insert building trade info => {}", building.toString());
+//                buildingRepository.save(building);
+//                return;
+//            }
+//            // 전세
+//            log.warn("전세!!!");
+//            log.warn("building.getCharterDates() => {}", building.getCharterDates());
+//            for (int i = startDay; i <= endDay; i++) {
+//                Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
+//                CharterDate charterDate = new CharterDate.Builder().building(building).date(date)
+//                        .price(charterWithRentItemDto.getGuaranteePrice().trim())
+//                        .build();
+//                log.warn("charterDate => {}", charterDate.toString());
+//                building.getCharterDates().add(charterDate);
+//            }
+//            log.warn("insert building trade info => {}", building.toString());
+//            buildingRepository.save(building);
         });
         buildingRepository.flush();
     }
