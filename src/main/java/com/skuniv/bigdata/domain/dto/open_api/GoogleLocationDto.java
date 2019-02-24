@@ -6,10 +6,15 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@Builder
 public class GoogleLocationDto {
     @NonNull
     private String latitude;
     @NonNull
     private String longitude;
+
+    @Builder
+    public GoogleLocationDto(String latitude, String longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }
