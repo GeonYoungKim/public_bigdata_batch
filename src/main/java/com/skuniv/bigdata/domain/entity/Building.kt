@@ -66,6 +66,7 @@ data class Building(
         var rentDates: Set<RentDate>? = null
             private set
 
+        fun no(no: Long) = apply { this.no = no }
         fun city(city: Int) = apply { this.city = city }
         fun groop(groop: Int) = apply { this.groop = groop }
         fun dong(dong: String) = apply { this.dong = dong }
