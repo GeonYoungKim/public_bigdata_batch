@@ -53,13 +53,11 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
         String line = null;
         if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
             while ((line = br.readLine()) != null) {
-                log.warn("line => {}", line.trim());
                 list.add(gson.fromJson(line.trim(), BargainItemDto.class));
             }
             return;
         }
         while ((line = br.readLine()) != null) {
-            log.warn("line => {}", line.trim());
             CharterWithRentItemDto charterWithRentItemDto = gson.fromJson(line.trim(), CharterWithRentItemDto.class);
             list.add(gson.fromJson(line.trim(), CharterWithRentItemDto.class));
         }
@@ -98,7 +96,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             e.printStackTrace();
         }
 //        log.warn("oldDataList => {}", oldDataList);
-        log.warn("newDataList => {}", newDataList);
+//        log.warn("newDataList => {}", newDataList);
     }
 
     @Override
@@ -120,6 +118,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             log.warn("insert item => {}", item.toString());
             // 매매의 경우
             if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
+                log.warn("매매!!!");
                 BargainItemDto bargainItemDto = (BargainItemDto) item;
                 int city = Integer.parseInt(bargainItemDto.getRegionCode().substring(0, 2));
                 int groop = Integer.parseInt(bargainItemDto.getRegionCode().substring(2));
@@ -187,7 +186,6 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                             .guaranteePrice(charterWithRentItemDto.getGuaranteePrice().trim())
                             .monthlyPrice(charterWithRentItemDto.getMonthlyPrice().trim())
                             .build();
-                    log.warn("rentDate => {}", rentDate.toString());
                     building.getRentDates().add(rentDate);
                 }
                 log.warn("insert building trade info => {}", building.toString());
@@ -196,13 +194,11 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
             }
             // 전세
             log.warn("전세!!!");
-            log.warn("building.getCharterDates() => {}", building.getCharterDates());
             for (int i = startDay; i <= endDay; i++) {
                 Date date = new GregorianCalendar(charterWithRentItemDto.getYear(), charterWithRentItemDto.getMonthly() - 1, i).getTime();
                 CharterDate charterDate = new CharterDate.Builder().building(building).date(date)
                         .price(charterWithRentItemDto.getGuaranteePrice().trim())
                         .build();
-                log.warn("charterDate => {}", charterDate.toString());
                 building.getCharterDates().add(charterDate);
             }
             log.warn("insert building trade info => {}", building.toString());
