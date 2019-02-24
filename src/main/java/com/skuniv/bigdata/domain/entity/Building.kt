@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Building(
         @Id
         @GeneratedValue
-        var no: Long? = null,
+        var no: Long?,
         var city: Int?,
         var groop: Int?,
         var dong: String?,
