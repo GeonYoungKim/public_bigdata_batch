@@ -45,7 +45,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
 
     private String fileName;
     private String dealType;
-    private List oldDataList;
+//    private List oldDataList;
     private List newDataList;
     private int buildingType;
 
@@ -53,11 +53,13 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
         String line = null;
         if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
             while ((line = br.readLine()) != null) {
+                log.warn("line => {}", line.trim());
                 list.add(gson.fromJson(line.trim(), BargainItemDto.class));
             }
             return;
         }
         while ((line = br.readLine()) != null) {
+            log.warn("line => {}", line.trim());
             CharterWithRentItemDto charterWithRentItemDto = gson.fromJson(line.trim(), CharterWithRentItemDto.class);
             list.add(gson.fromJson(line.trim(), CharterWithRentItemDto.class));
         }
@@ -74,10 +76,10 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
         buildingType = Integer.parseInt((String) ctx.get(OpenApiConstants.BUILDING_TYPE));
         log.warn("buildingType => {}", buildingType);
 
-        oldDataList = new ArrayList<CharterWithRentItemDto>();
+//        oldDataList = new ArrayList<CharterWithRentItemDto>();
         newDataList = new ArrayList<CharterWithRentItemDto>();
         if (StringUtils.equals(dealType, OpenApiConstants.BARGAIN_NUM)) {
-            oldDataList = new ArrayList<BargainItemDto>();
+//            oldDataList = new ArrayList<BargainItemDto>();
             newDataList = new ArrayList<BargainItemDto>();
         }
 
@@ -88,14 +90,14 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
                 BufferedReader oldBr = new BufferedReader(new FileReader(new File(oldFileFullPath)));
                 BufferedReader newBr = new BufferedReader(new FileReader(new File(newFileFullPath)))
         ) {
-            loadDataList(oldBr, oldDataList);
+//            loadDataList(oldBr, oldDataList);
             loadDataList(newBr, newDataList);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        log.warn("oldDataList => {}", oldDataList);
+//        log.warn("oldDataList => {}", oldDataList);
         log.warn("newDataList => {}", newDataList);
     }
 
@@ -207,7 +209,7 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         // 두개 List 의 변경분만 추출.!!!
-        newDataList.removeAll(oldDataList);
+//        newDataList.removeAll(oldDataList);
         log.warn("insert DataList => {}", newDataList);
         batchInsertData(newDataList);
         return RepeatStatus.FINISHED;
