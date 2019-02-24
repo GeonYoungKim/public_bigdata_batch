@@ -30,7 +30,7 @@ class BargainDate(
             private set
 
     fun id(id: Long) = apply { this.id = id }
-    fun building(Building: Building) = apply { this.building = building }
+    fun building(building: Building) = apply { this.building = building }
     fun date(date: Date) = apply { this.date = date }
     fun price(price: String) = apply { this.price = price }
     fun build() = BargainDate(this)
