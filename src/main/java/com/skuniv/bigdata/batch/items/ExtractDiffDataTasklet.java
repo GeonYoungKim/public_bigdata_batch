@@ -84,10 +84,10 @@ public class ExtractDiffDataTasklet implements Tasklet, StepExecutionListener, I
         }
 
         String newFileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName;
-        String oldFileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName + OpenApiConstants.OLD;
+//        String oldFileFullPath = yamlDto.getFilePath() + OpenApiConstants.FILE_DELEMETER + fileName + OpenApiConstants.OLD;
 
         try (
-                BufferedReader oldBr = new BufferedReader(new FileReader(new File(oldFileFullPath)));
+//                BufferedReader oldBr = new BufferedReader(new FileReader(new File(oldFileFullPath)));
                 BufferedReader newBr = new BufferedReader(new FileReader(new File(newFileFullPath)))
         ) {
 //            loadDataList(oldBr, oldDataList);
