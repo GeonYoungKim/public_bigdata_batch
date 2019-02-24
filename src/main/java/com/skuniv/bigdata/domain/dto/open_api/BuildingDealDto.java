@@ -1,8 +1,11 @@
 package com.skuniv.bigdata.domain.dto.open_api;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public abstract class BuildingDealDto {
     private String buildingType;
     private String dealType;

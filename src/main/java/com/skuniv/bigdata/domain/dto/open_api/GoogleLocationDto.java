@@ -1,10 +1,11 @@
 package com.skuniv.bigdata.domain.dto.open_api;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Builder
 public class GoogleLocationDto {
     @NonNull
