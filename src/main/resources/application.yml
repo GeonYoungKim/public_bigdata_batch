@@ -8,7 +8,7 @@ spring:
     url: jdbc:log4jdbc:mysql://117.17.142.207:3306/realestate_db?useSSL=false&serverTimezone=Asia/Seoul
     username: root
     password: cs616
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
   main:
     web-application-type: none
   batch:
