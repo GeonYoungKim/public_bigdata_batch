@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class OpenApiConstants {
-    public static String APART_NUM = "1";
-    public static String OFFICETELS_NUM = "2";
-    public static String HOUSING_NUM = "3";
+    public static String APART = "apart";
+    public static String OFFICETELS = "officetel";
+    public static String HOUSING = "house";
 
     public static String BARGAIN_NUM = "1";
     public static String CHARTER_RENT_NUM = "2";
@@ -28,12 +28,12 @@ public final class OpenApiConstants {
     @Getter
     @AllArgsConstructor
     public enum OpenApiRequest {
-        APART_BARGAIN("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.APART_NUM, OpenApiConstants.BARGAIN_NUM),
-        APART_CHARTER_RENT("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.APART_NUM, OpenApiConstants.CHARTER_RENT_NUM),
-        OFFICETELS_BARGAIN("http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcOffiTrade?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.OFFICETELS_NUM, OpenApiConstants.BARGAIN_NUM),
-        OFFICETELS_CHARTER_RENT("http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcOffiRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.OFFICETELS_NUM, OpenApiConstants.CHARTER_RENT_NUM),
-        MUTILGENERATION_BARGAIN("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHTrade?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.HOUSING_NUM, OpenApiConstants.BARGAIN_NUM),
-        MUTILGENERATION_CHARTER_RENT("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.HOUSING_NUM, OpenApiConstants.CHARTER_RENT_NUM)
+        APART_BARGAIN("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.APART, OpenApiConstants.BARGAIN_NUM),
+        APART_CHARTER_RENT("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.APART, OpenApiConstants.CHARTER_RENT_NUM),
+        OFFICETELS_BARGAIN("http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcOffiTrade?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.OFFICETELS, OpenApiConstants.BARGAIN_NUM),
+        OFFICETELS_CHARTER_RENT("http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcOffiRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.OFFICETELS, OpenApiConstants.CHARTER_RENT_NUM),
+        MUTILGENERATION_BARGAIN("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHTrade?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.HOUSING, OpenApiConstants.BARGAIN_NUM),
+        MUTILGENERATION_CHARTER_RENT("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHRent?LAWD_CD=%s&DEAL_YMD=%s", OpenApiConstants.HOUSING, OpenApiConstants.CHARTER_RENT_NUM)
         ;
         private String url;
         private String buildingType;
